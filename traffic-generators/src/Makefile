@@ -33,6 +33,7 @@ OBJS = \
     $O/OnOff.o \
     $O/Poisson.o \
     $O/Receiver.o \
+    $O/SizeBasedAdmissionControl.o \
     $O/Source.o \
     $O/Packet_m.o
 
@@ -133,6 +134,9 @@ $O/Poisson.o: Poisson.cc \
 	Source.h
 $O/Receiver.o: Receiver.cc \
 	Receiver.h
+$O/SizeBasedAdmissionControl.o: SizeBasedAdmissionControl.cc \
+	Packet_m.h \
+	SizeBasedAdmissionControl.h
 $O/Source.o: Source.cc \
 	Packet_m.h \
 	Source.h

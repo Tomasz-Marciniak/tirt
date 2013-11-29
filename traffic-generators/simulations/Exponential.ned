@@ -15,8 +15,8 @@
 
 package traffic_generators.simulations;
 
-import traffic_generators.Exponential;
-import traffic_generators.Receiver;
+import traffic_generators.Exponential;import traffic_generators.Receiver;
+
 
 //
 // Sample network, consisting of a source and a sink.

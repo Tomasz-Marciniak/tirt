@@ -18,7 +18,7 @@
 namespace traffic_generators {
 
 Define_Module(Receiver);
-;
+
 void Receiver::initialize()
 {
     lastArrival = simTime();
@@ -30,7 +30,7 @@ void Receiver::initialize()
 void Receiver::handleMessage(cMessage *msg)
 {
     simtime_t d = simTime() - lastArrival;
-    EV << "Received " << msg->getName() << ' at ' << d << endl;
+    EV << 'Received ' << msg->getName() << ' at ' << d << endl;
     delete msg;
 
     iaTimeHistogram.collect(d);

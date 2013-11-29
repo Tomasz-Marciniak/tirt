@@ -16,7 +16,8 @@ packet Packet
     int srcAddr;
     int dstAddr;
     int sessionId;
-    int packetId;
+    int packetId = -1;
+    int priority = 0;    
     int clazz;
     int payload;
 }
