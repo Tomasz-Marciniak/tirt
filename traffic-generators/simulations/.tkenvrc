@@ -1,0 +1,3 @@
+# Partial Tkenv config file -- see $HOME/.tkenvrc as well
+inspector "Poisson" "Poisson" "2" "565x342+250+250:normal"
+

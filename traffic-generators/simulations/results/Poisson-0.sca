@@ -1,0 +1,57 @@
+version 2
+run Poisson-0-20131129-17:19:58-16760
+attr configname Poisson
+attr datetime 20131129-17:19:58
+attr experiment Poisson
+attr inifile omnetpp.ini
+attr iterationvars ""
+attr iterationvars2 $repetition=0
+attr measurement ""
+attr network Poisson
+attr processid 16760
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 0
+attr seedset 0
+
+statistic Poisson.receiver 	"interarrival times"
+field count 186111
+field mean 10.012170156519
+field stddev 3.1667003582543
+field sum 1863375
+field sqrsum 20522737
+field min 0
+field max 26
+bin	-INF	0
+bin	-9.5	0
+bin	-8.2333333333333	0
+bin	-6.9666666666667	0
+bin	-5.7	0
+bin	-4.4333333333333	0
+bin	-3.1666666666667	0
+bin	-1.9	0
+bin	-0.63333333333333	7
+bin	0.63333333333333	76
+bin	1.9	1777
+bin	3.1666666666667	3496
+bin	4.4333333333333	6998
+bin	5.7	11784
+bin	6.9666666666667	37626
+bin	8.2333333333333	23346
+bin	9.5	23338
+bin	10.766666666667	38618
+bin	12.033333333333	13655
+bin	13.3	9635
+bin	14.566666666667	6518
+bin	15.833333333333	6506
+bin	17.1	1366
+bin	18.366666666667	697
+bin	19.633333333333	357
+bin	20.9	257
+bin	22.166666666667	31
+bin	23.433333333333	17
+bin	24.7	4
+bin	25.966666666667	2
+bin	27.233333333333	0
+bin	28.5	0

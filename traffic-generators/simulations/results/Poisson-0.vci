@@ -1,0 +1,21 @@
+file 3556041 1385742009                                         
+version 2
+run Poisson-0-20131129-17:19:58-16760
+attr configname Poisson
+attr datetime 20131129-17:19:58
+attr experiment Poisson
+attr inifile omnetpp.ini
+attr iterationvars ""
+attr iterationvars2 $repetition=0
+attr measurement ""
+attr network Poisson
+attr processid 16760
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 0
+attr seedset 0
+
+vector 0  Poisson.receiver  arrivals  ETV
+attr interpolationmode  none
+0	455 3555586 2 372222 0 1863375 186111 1 1 186111 186111
