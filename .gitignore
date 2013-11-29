@@ -1,3 +1,7 @@
 /traffic-generators/out
 
 /traffic-generators/simulations/results
+/traffic-generators/src/*.exe
+
+/tirt/*.exe
+/out
