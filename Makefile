@@ -2,7 +2,7 @@
 # OMNeT++/OMNEST Makefile for tirt
 #
 # This file was generated with the command:
-#  opp_makemake
+#  opp_makemake -f
 #
 
 # Name of target to be created (-o option)
