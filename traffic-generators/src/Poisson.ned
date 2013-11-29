@@ -6,5 +6,5 @@ package traffic_generators;
 simple Poisson extends Source
 {	
      parameters:
-        sendInterval @unit(s) = default(poisson(1s));
+        sendInterval @unit(s) = default(poisson(10)*1s);
 }

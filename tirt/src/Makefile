@@ -14,17 +14,7 @@ USERIF_LIBS = $(ALL_ENV_LIBS) # that is, $(TKENV_LIBS) $(CMDENV_LIBS)
 #USERIF_LIBS = $(TKENV_LIBS)
 
 # C++ include paths (with -I)
-INCLUDE_PATH = \
-    -I. \
-    -Iadmission \
-    -Ichannels \
-    -Iforks \
-    -Igenerators \
-    -Ipackets \
-    -Iprofilers \
-    -Ischedulers \
-    -Isimulation \
-    -Isinks
+INCLUDE_PATH = -I.
 
 # Additional object and library files to link with
 EXTRA_OBJS =
@@ -38,39 +28,10 @@ PROJECTRELATIVE_PATH = src
 O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 
 # Object files for local .cc and .msg files
-OBJS = \
-    $O/Sink.o \
-    $O/Source.o \
-    $O/admission/AbstractAdmissionControl.o \
-    $O/admission/PriorityControlAdmissionControl.o \
-    $O/admission/RateBasedAdmissionControl.o \
-    $O/admission/SizeAdmissionControl.o \
-    $O/admission/SrcAdmissionControl.o \
-    $O/forks/DummyModule.o \
-    $O/forks/RandomFork.o \
-    $O/generators/AbstractGenerator.o \
-    $O/generators/ExponentialGenerator.o \
-    $O/generators/MarkovModulatedPoissonProcessGenerator.o \
-    $O/generators/OnOffGenerator.o \
-    $O/generators/PoissonGenerator.o \
-    $O/profilers/AbstractProfiler.o \
-    $O/profilers/JitterControlProfiler.o \
-    $O/profilers/LeakyBucketProfiler.o \
-    $O/profilers/LoadSheddingProfiler.o \
-    $O/profilers/TokenBucketProfiler.o \
-    $O/schedulers/AbstractScheduler.o \
-    $O/schedulers/FcfsScheduler.o \
-    $O/schedulers/LcfsScheduler.o \
-    $O/schedulers/PriorityQueueScheduler.o \
-    $O/schedulers/RoundRobinScheduler.o \
-    $O/schedulers/WeightedRoundRobinScheduler.o \
-    $O/simulation/TimeLogScheduler.o \
-    $O/sinks/SimpleSink.o \
-    $O/packets/NetPacket_m.o
+OBJS = $O/Sink.o $O/Source.o
 
 # Message files
-MSGFILES = \
-    packets/NetPacket.msg
+MSGFILES =
 
 #------------------------------------------------------------------------------
 
@@ -144,117 +105,17 @@ clean:
 	$(Q)-rm -rf $O
 	$(Q)-rm -f tirt tirt.exe libtirt.so libtirt.a libtirt.dll libtirt.dylib
 	$(Q)-rm -f ./*_m.cc ./*_m.h
-	$(Q)-rm -f admission/*_m.cc admission/*_m.h
-	$(Q)-rm -f channels/*_m.cc channels/*_m.h
-	$(Q)-rm -f forks/*_m.cc forks/*_m.h
-	$(Q)-rm -f generators/*_m.cc generators/*_m.h
-	$(Q)-rm -f packets/*_m.cc packets/*_m.h
-	$(Q)-rm -f profilers/*_m.cc profilers/*_m.h
-	$(Q)-rm -f schedulers/*_m.cc schedulers/*_m.h
-	$(Q)-rm -f simulation/*_m.cc simulation/*_m.h
-	$(Q)-rm -f sinks/*_m.cc sinks/*_m.h
 
 cleanall: clean
 	$(Q)-rm -rf $(PROJECT_OUTPUT_DIR)
 
 depend:
 	$(qecho) Creating dependencies...
-	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cc admission/*.cc channels/*.cc forks/*.cc generators/*.cc packets/*.cc profilers/*.cc schedulers/*.cc simulation/*.cc sinks/*.cc
+	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cc
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
 $O/Sink.o: Sink.cc \
 	Sink.h
 $O/Source.o: Source.cc \
 	Source.h
-$O/admission/AbstractAdmissionControl.o: admission/AbstractAdmissionControl.cc \
-	admission/AbstractAdmissionControl.h \
-	packets/NetPacket_m.h
-$O/admission/PriorityControlAdmissionControl.o: admission/PriorityControlAdmissionControl.cc \
-	admission/AbstractAdmissionControl.h \
-	admission/PriorityControlAdmissionControl.h \
-	packets/NetPacket_m.h
-$O/admission/RateBasedAdmissionControl.o: admission/RateBasedAdmissionControl.cc \
-	admission/AbstractAdmissionControl.h \
-	admission/RateBasedAdmissionControl.h \
-	packets/NetPacket_m.h
-$O/admission/SizeAdmissionControl.o: admission/SizeAdmissionControl.cc \
-	admission/AbstractAdmissionControl.h \
-	admission/SizeAdmissionControl.h \
-	packets/NetPacket_m.h
-$O/admission/SrcAdmissionControl.o: admission/SrcAdmissionControl.cc \
-	admission/AbstractAdmissionControl.h \
-	admission/SrcAdmissionControl.h \
-	packets/NetPacket_m.h
-$O/forks/DummyModule.o: forks/DummyModule.cc \
-	forks/DummyModule.h
-$O/forks/RandomFork.o: forks/RandomFork.cc \
-	forks/RandomFork.h
-$O/generators/AbstractGenerator.o: generators/AbstractGenerator.cc \
-	generators/AbstractGenerator.h \
-	packets/NetPacket_m.h
-$O/generators/ExponentialGenerator.o: generators/ExponentialGenerator.cc \
-	generators/AbstractGenerator.h \
-	generators/ExponentialGenerator.h \
-	packets/NetPacket_m.h
-$O/generators/MarkovModulatedPoissonProcessGenerator.o: generators/MarkovModulatedPoissonProcessGenerator.cc \
-	generators/AbstractGenerator.h \
-	generators/MarkovModulatedPoissonProcessGenerator.h \
-	packets/NetPacket_m.h
-$O/generators/OnOffGenerator.o: generators/OnOffGenerator.cc \
-	generators/AbstractGenerator.h \
-	generators/OnOffGenerator.h \
-	packets/NetPacket_m.h
-$O/generators/PoissonGenerator.o: generators/PoissonGenerator.cc \
-	generators/AbstractGenerator.h \
-	generators/PoissonGenerator.h \
-	packets/NetPacket_m.h
-$O/packets/NetPacket_m.o: packets/NetPacket_m.cc \
-	packets/NetPacket_m.h
-$O/profilers/AbstractProfiler.o: profilers/AbstractProfiler.cc \
-	packets/NetPacket_m.h \
-	profilers/AbstractProfiler.h
-$O/profilers/JitterControlProfiler.o: profilers/JitterControlProfiler.cc \
-	packets/NetPacket_m.h \
-	profilers/AbstractProfiler.h \
-	profilers/JitterControlProfiler.h
-$O/profilers/LeakyBucketProfiler.o: profilers/LeakyBucketProfiler.cc \
-	packets/NetPacket_m.h \
-	profilers/AbstractProfiler.h \
-	profilers/LeakyBucketProfiler.h
-$O/profilers/LoadSheddingProfiler.o: profilers/LoadSheddingProfiler.cc \
-	packets/NetPacket_m.h \
-	profilers/AbstractProfiler.h \
-	profilers/LoadSheddingProfiler.h
-$O/profilers/TokenBucketProfiler.o: profilers/TokenBucketProfiler.cc \
-	packets/NetPacket_m.h \
-	profilers/AbstractProfiler.h \
-	profilers/TokenBucketProfiler.h
-$O/schedulers/AbstractScheduler.o: schedulers/AbstractScheduler.cc \
-	packets/NetPacket_m.h \
-	schedulers/AbstractScheduler.h
-$O/schedulers/FcfsScheduler.o: schedulers/FcfsScheduler.cc \
-	packets/NetPacket_m.h \
-	schedulers/AbstractScheduler.h \
-	schedulers/FcfsScheduler.h
-$O/schedulers/LcfsScheduler.o: schedulers/LcfsScheduler.cc \
-	packets/NetPacket_m.h \
-	schedulers/AbstractScheduler.h \
-	schedulers/LcfsScheduler.h
-$O/schedulers/PriorityQueueScheduler.o: schedulers/PriorityQueueScheduler.cc \
-	packets/NetPacket_m.h \
-	schedulers/AbstractScheduler.h \
-	schedulers/PriorityQueueScheduler.h
-$O/schedulers/RoundRobinScheduler.o: schedulers/RoundRobinScheduler.cc \
-	packets/NetPacket_m.h \
-	schedulers/AbstractScheduler.h \
-	schedulers/RoundRobinScheduler.h
-$O/schedulers/WeightedRoundRobinScheduler.o: schedulers/WeightedRoundRobinScheduler.cc \
-	packets/NetPacket_m.h \
-	schedulers/AbstractScheduler.h \
-	schedulers/WeightedRoundRobinScheduler.h
-$O/simulation/TimeLogScheduler.o: simulation/TimeLogScheduler.cc \
-	simulation/TimeLogScheduler.h
-$O/sinks/SimpleSink.o: sinks/SimpleSink.cc \
-	packets/NetPacket_m.h \
-	sinks/SimpleSink.h
 
