@@ -4,7 +4,6 @@
 #include <omnetpp.h>
 #include "Packet_m.h"
 
-namespace traffic_generators {
 
 /**
  * Generates messages; see NED file for more info.
@@ -24,9 +23,5 @@ class Source : public cSimpleModule
     private:
         cMessage* generateMessage();
 };
-
-}
-;
-// namespace
 
 #endif

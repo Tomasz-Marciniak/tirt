@@ -16,8 +16,6 @@
 #include "Source.h"
 #include "Packet_m.h"
 
-namespace traffic_generators {
-
 Define_Module(Source)
 ;
 
@@ -58,7 +56,3 @@ void Source::handleMessage(cMessage *msg)
     send(pk, "out");
     scheduleAt(simTime() + par("sendInterval").doubleValue(), timerMessage);
 }
-
-}
-;
-// namespace

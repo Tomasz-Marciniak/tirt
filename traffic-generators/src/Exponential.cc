@@ -15,13 +15,9 @@
 
 #include "Exponential.h"
 
-namespace traffic_generators {
-
 Exponential::Exponential() {
 
 }
 
 Exponential::~Exponential() {
 }
-
-} /* namespace traffic_generators */

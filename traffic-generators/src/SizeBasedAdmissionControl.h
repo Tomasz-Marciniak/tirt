@@ -18,8 +18,6 @@
 
 #include "Packet_m.h"
 
-namespace traffic_generators {
-
 class SizeBasedAdmissionControl : public cSimpleModule
 {
     public:
@@ -48,5 +46,4 @@ class SizeBasedAdmissionControl : public cSimpleModule
         virtual void finish();
 };
 
-} /* namespace traffic_generators */
 #endif /* SIZEBASEDADMISSIONCONTROL_H_ */

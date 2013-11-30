@@ -3,8 +3,6 @@
 
 #include <omnetpp.h>
 
-namespace traffic_generators {
-
 /**
  * Message sink; see NED file for more info.
  */
@@ -23,7 +21,5 @@ class Receiver : public cSimpleModule
     virtual void handleMessage(cMessage *msg);
     virtual void finish();
 };
-
-}; // namespace
 
 #endif

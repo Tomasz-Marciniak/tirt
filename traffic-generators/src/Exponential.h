@@ -1,16 +1,14 @@
 #ifndef EXPONENTIAL_H_
 #define EXPONENTIAL_H_
 
+#include <omnetpp.h>
 #include "Source.h"
 
-namespace traffic_generators {
-
-class Exponential: public traffic_generators::Source {
+class Exponential: public Source {
 
 public:
     Exponential();
     virtual ~Exponential();
 };
 
-} /* namespace traffic_generators */
 #endif /* Exponential_H_ */
