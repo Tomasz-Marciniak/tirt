@@ -18,18 +18,17 @@ package traffic_generators;
 //
 // TODO auto-generated type
 //
-simple SizeBasedAdmissionControl
+simple RandomSizePacketGenerator
 {
     parameters:
-        volatile int minPacketSize @unit("B") = default(0B);
-        volatile int maxPacketSize @unit("B") = default(1KiB);
+        @class(RandomSizePacketGenerator);
+        @display("i=block/source");
 
-        @class(SizeBasedAdmissionControl);
-        @display("i=block/control");
+        int minPacketSize @unit("B") = default(0B);
+        int maxPacketSize @unit("B") = default(1KiB);
 
-        double delay @unit("s") = default(0s);
+        double sendInterval @unit(s) = default(1s);
 
     gates:
-        input in[];
         output out;
 }

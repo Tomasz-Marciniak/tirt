@@ -24,7 +24,7 @@
  *     int dstAddr;
  *     int sessionId;
  *     int packetId = -1;
- *     int priority = 0;    
+ *     int priority = 0;
  *     int clazz;
  *     int payload;
  * }

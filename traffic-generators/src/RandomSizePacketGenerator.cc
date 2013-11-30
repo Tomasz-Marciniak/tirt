@@ -13,40 +13,45 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef SIZEBASEDADMISSIONCONTROL_H_
-#define SIZEBASEDADMISSIONCONTROL_H_
-
-#include "Packet_m.h"
+#include <stdlib.h>
+#include <time.h>
+#include "RandomSizePacketGenerator.h"
+#include "Source.h"
 
 namespace traffic_generators {
 
-class SizeBasedAdmissionControl : public cSimpleModule
+Define_Module(RandomSizePacketGenerator)
+
+RandomSizePacketGenerator::RandomSizePacketGenerator()
 {
-    public:
-        SizeBasedAdmissionControl();
-        virtual ~SizeBasedAdmissionControl();
+    minPacketSize = par("minPacketSize");
+    maxPacketSize = par("maxPacketSize");
 
-    protected:
+    srand(time(NULL));
+}
 
-        //Parameters
-        int minPacketSize;
-        int maxPacketSize;
-        double delay;
+RandomSizePacketGenerator::~RandomSizePacketGenerator()
+{
 
-        //Infrastructure
-        cGate* out;
+}
 
-        //Accumulators
-        simtime_t lastPacketProcessTime;
+void RandomSizePacketGenerator::initialize()
+{
 
-        int32 packetsReceivedIn;
-        int32 packetsSentOut;
 
-        virtual void initialize();
-        virtual bool accept(Packet* packet);
-        virtual void handleMessage(cMessage* msg);
-        virtual void finish();
-};
+}
+
+Packet* RandomSizePacketGenerator::generatePacket()
+{
+    Packet* packet = Source::generatePacket();
+
+    // Precaution if someone decided to put max < min
+
+    int spread = abs(maxPacketSize - minPacketSize);
+    int sizeInBytes = minPacketSize + rand() % spread;
+
+    packet->setByteLength(sizeInBytes);
+    return packet;
+}
 
 } /* namespace traffic_generators */
-#endif /* SIZEBASEDADMISSIONCONTROL_H_ */

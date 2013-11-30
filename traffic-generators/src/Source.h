@@ -2,6 +2,7 @@
 #define __TRAFFIC_GENERATORS_SOURCE_H
 
 #include <omnetpp.h>
+#include "Packet_m.h"
 
 namespace traffic_generators {
 
@@ -10,16 +11,20 @@ namespace traffic_generators {
  */
 class Source : public cSimpleModule
 {
-  public:
-     cMessage *timerMessage;
-     Source();
-     virtual ~Source();
+    public:
+        cMessage *timerMessage;
+        Source();
+        virtual ~Source();
 
-  protected:
-    virtual void initialize();
-    virtual void handleMessage(cMessage *msg);
+    protected:
+        virtual void initialize();
+        virtual void handleMessage(cMessage *msg);
+        Packet* generatePacket();
+
 };
 
-}; // namespace
+}
+;
+// namespace
 
 #endif

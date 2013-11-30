@@ -31,8 +31,8 @@ SizeBasedAdmissionControl::~SizeBasedAdmissionControl()
 
 void SizeBasedAdmissionControl::initialize()
 {
-    min = par("min");
-    max = par("max");
+    minPacketSize = par("minPacketSize");
+    maxPacketSize = par("maxPacketSize");
     delay = par("delay");
     out = gate("out");
 }
@@ -40,7 +40,7 @@ void SizeBasedAdmissionControl::initialize()
 bool SizeBasedAdmissionControl::accept(Packet* packet)
 {
     int64 packetSize = packet->getByteLength();
-    return packetSize >= min && packetSize <= max;
+    return packetSize >= minPacketSize && packetSize <= maxPacketSize;
 }
 
 void SizeBasedAdmissionControl::handleMessage(cMessage* msg)

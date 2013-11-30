@@ -18,7 +18,8 @@
 
 namespace traffic_generators {
 
-Define_Module(Source);
+Define_Module(Source)
+;
 
 Source::Source()
 {
@@ -36,16 +37,23 @@ void Source::initialize()
     scheduleAt(simTime(), timerMessage);
 }
 
-void Source::handleMessage(cMessage *msg)
+Packet* Source::generatePacket()
 {
-    ASSERT(msg==timerMessage);
-
-    Packet *pk = new Packet();
-
-       pk->setSrcAddr(1);
-       pk->setDstAddr(1);
-    send(pk,"out");
-    scheduleAt(simTime()+par("sendInterval").doubleValue(), timerMessage);
+    return new Packet();
 }
 
-}; // namespace
+void Source::handleMessage(cMessage *msg)
+{
+    ASSERT(msg == timerMessage);
+
+    Packet *pk = generatePacket();
+
+    pk->setSrcAddr(1);
+    pk->setDstAddr(1);
+    send(pk, "out");
+    scheduleAt(simTime() + par("sendInterval").doubleValue(), timerMessage);
+}
+
+}
+;
+// namespace

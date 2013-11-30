@@ -15,6 +15,7 @@
 
 package traffic_generators.simulations;
 
+import traffic_generators.RandomSizePacketGenerator;
 import traffic_generators.Receiver;
 import traffic_generators.Source;
 
@@ -25,16 +26,16 @@ import traffic_generators.Source;
 network SizeBasedAdmissionControl
 {
     submodules:
-        source: Source {
-            @display("p=73,132");
-        }
         sizeBasedAdmissionControl: traffic_generators.SizeBasedAdmissionControl {
             @display("p=211,132");
         }
         receiver: Receiver {
             @display("p=346,132");
         }
+        randomSizePacketGenerator: RandomSizePacketGenerator {
+            @display("p=31,130");
+        }
     connections:
-        source.out --> sizeBasedAdmissionControl.in++;
         sizeBasedAdmissionControl.out --> receiver.in;
+        randomSizePacketGenerator.out --> sizeBasedAdmissionControl.in++;
 }

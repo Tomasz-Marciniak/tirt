@@ -32,6 +32,7 @@ OBJS = \
     $O/Exponential.o \
     $O/OnOff.o \
     $O/Poisson.o \
+    $O/RandomSizePacketGenerator.o \
     $O/Receiver.o \
     $O/SizeBasedAdmissionControl.o \
     $O/Source.o \
@@ -124,13 +125,19 @@ depend:
 # DO NOT DELETE THIS LINE -- make depend depends on it.
 $O/Exponential.o: Exponential.cc \
 	Exponential.h \
+	Packet_m.h \
 	Source.h
 $O/OnOff.o: OnOff.cc \
 	OnOff.h
 $O/Packet_m.o: Packet_m.cc \
 	Packet_m.h
 $O/Poisson.o: Poisson.cc \
+	Packet_m.h \
 	Poisson.h \
+	Source.h
+$O/RandomSizePacketGenerator.o: RandomSizePacketGenerator.cc \
+	Packet_m.h \
+	RandomSizePacketGenerator.h \
 	Source.h
 $O/Receiver.o: Receiver.cc \
 	Receiver.h

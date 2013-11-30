@@ -13,40 +13,27 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef SIZEBASEDADMISSIONCONTROL_H_
-#define SIZEBASEDADMISSIONCONTROL_H_
+#ifndef RANDOMSIZEPACKETGENERATOR_H_
+#define RANDOMSIZEPACKETGENERATOR_H_
+
 
 #include "Packet_m.h"
+#include "Source.h"
 
 namespace traffic_generators {
 
-class SizeBasedAdmissionControl : public cSimpleModule
-{
+class RandomSizePacketGenerator: public traffic_generators::Source{
     public:
-        SizeBasedAdmissionControl();
-        virtual ~SizeBasedAdmissionControl();
-
+        RandomSizePacketGenerator();
+        virtual ~RandomSizePacketGenerator();
     protected:
+        virtual Packet* generatePacket();
+        virtual void initialize();
 
         //Parameters
         int minPacketSize;
         int maxPacketSize;
-        double delay;
-
-        //Infrastructure
-        cGate* out;
-
-        //Accumulators
-        simtime_t lastPacketProcessTime;
-
-        int32 packetsReceivedIn;
-        int32 packetsSentOut;
-
-        virtual void initialize();
-        virtual bool accept(Packet* packet);
-        virtual void handleMessage(cMessage* msg);
-        virtual void finish();
 };
 
 } /* namespace traffic_generators */
-#endif /* SIZEBASEDADMISSIONCONTROL_H_ */
+#endif /* RANDOMSIZEPACKETGENERATOR_H_ */

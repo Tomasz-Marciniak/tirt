@@ -1,2 +1,3 @@
 # Partial Tkenv config file -- see $HOME/.tkenvrc as well
+inspector "SizeBasedAdmissionControl" "SizeBasedAdmissionControl" "2" "672x342+200+200:normal"
 

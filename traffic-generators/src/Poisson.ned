@@ -4,7 +4,7 @@ package traffic_generators;
 // Generates messages with a configurable interarrival time.
 //
 simple Poisson extends Source
-{	
-     parameters:
+{
+    parameters:
         sendInterval @unit(s) = default(poisson(10)*1s);
 }
