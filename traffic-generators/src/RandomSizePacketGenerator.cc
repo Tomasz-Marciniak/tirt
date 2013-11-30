@@ -24,15 +24,13 @@ Define_Module(RandomSizePacketGenerator)
 
 RandomSizePacketGenerator::RandomSizePacketGenerator()
 {
-    minPacketSize = par("minPacketSize");
-    maxPacketSize = par("maxPacketSize");
-
     srand(time(NULL));
 }
 
 RandomSizePacketGenerator::~RandomSizePacketGenerator()
 {
-
+    minPacketSize = par("minPacketSize");
+    maxPacketSize = par("maxPacketSize");
 }
 
 void RandomSizePacketGenerator::initialize()
