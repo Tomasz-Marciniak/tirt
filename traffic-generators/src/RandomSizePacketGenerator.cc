@@ -38,6 +38,17 @@ void RandomSizePacketGenerator::initialize()
     minPacketSize = par("minPacketSize");
 }
 
+void RandomSizePacketGenerator::handleMessage(cMessage *msg){
+    ASSERT(msg == timerMessage);
+
+       Packet *pk = RandomSizePacketGenerator::generatePacket();
+
+       pk->setSrcAddr(1);
+       pk->setDstAddr(1);
+       send(pk, "out");
+       scheduleAt(simTime() + par("sendInterval").doubleValue(), timerMessage);
+}
+
 Packet* RandomSizePacketGenerator::generatePacket()
 {
     Packet* packet = Source::generatePacket();
@@ -45,6 +56,9 @@ Packet* RandomSizePacketGenerator::generatePacket()
     // Precaution if someone decided to put max < min :)
 
     int spread = abs(maxPacketSize - minPacketSize);
+
+    EV<< "spread " << spread <<" \n";
+
     int sizeInBytes = std::min(minPacketSize, maxPacketSize) + rand() % spread;
 
     packet->setByteLength(sizeInBytes);

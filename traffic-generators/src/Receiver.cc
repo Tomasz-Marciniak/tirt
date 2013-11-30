@@ -23,6 +23,8 @@ void Receiver::initialize()
     iaTimeHistogram.setName("interarrival times");
     arrivalsVector.setName("arrivals");
     arrivalsVector.setInterpolationMode(cOutVector::NONE);
+    sizeVector.setName("sizes");
+    sizeVector.setInterpolationMode(cOutVector::NONE);
 }
 
 void Receiver::handleMessage(cMessage *msg)
@@ -33,6 +35,10 @@ void Receiver::handleMessage(cMessage *msg)
 
     iaTimeHistogram.collect(d);
     arrivalsVector.record(1);
+
+    //Packet* pck = check_and_cast<Packet*>(msg);
+
+    //sizeVector.record(pck->getByteLength());
 
     lastArrival = simTime();
 }

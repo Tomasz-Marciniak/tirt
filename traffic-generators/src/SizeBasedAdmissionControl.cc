@@ -49,7 +49,7 @@ void SizeBasedAdmissionControl::handleMessage(cMessage* msg)
 
         if (accept(pck))
         {
-
+            EV<< "SizeBasedAdmissionControl accepted packet " << pck->getName() << " with size " << pck->getByteLength() << " \n";
             cChannel* channel = out->getChannel();
             if (channel)
             {

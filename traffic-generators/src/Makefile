@@ -140,6 +140,7 @@ $O/RandomSizePacketGenerator.o: RandomSizePacketGenerator.cc \
 	RandomSizePacketGenerator.h \
 	Source.h
 $O/Receiver.o: Receiver.cc \
+	Packet_m.h \
 	Receiver.h
 $O/SizeBasedAdmissionControl.o: SizeBasedAdmissionControl.cc \
 	Packet_m.h \
