@@ -15,35 +15,36 @@
 
 #include "Receiver.h"
 
-Define_Module(Receiver);
+Define_Module(Receiver)
+;
 
 void Receiver::initialize()
 {
-    lastArrival = simTime();
-    iaTimeHistogram.setName("interarrival times");
-    arrivalsVector.setName("arrivals");
-    arrivalsVector.setInterpolationMode(cOutVector::NONE);
-    sizeVector.setName("sizes");
-    sizeVector.setInterpolationMode(cOutVector::NONE);
+	lastArrival = simTime();
+	iaTimeHistogram.setName("interarrival times");
+	arrivalsVector.setName("arrivals");
+	arrivalsVector.setInterpolationMode(cOutVector::NONE);
+	sizeVector.setName("sizes");
+	sizeVector.setInterpolationMode(cOutVector::NONE);
 }
 
 void Receiver::handleMessage(cMessage *msg)
 {
-    simtime_t d = simTime() - lastArrival;
-    EV << 'Received ' << msg->getName() << ' at ' << d << endl;
-    delete msg;
+	simtime_t d = simTime() - lastArrival;
+	EV<< 'Received ' << msg->getName() << ' at ' << d << endl;
+	delete msg;
 
-    iaTimeHistogram.collect(d);
-    arrivalsVector.record(1);
+	iaTimeHistogram.collect(d);
+	arrivalsVector.record(1);
 
-    //Packet* pck = check_and_cast<Packet*>(msg);
+	//Packet* pck = check_and_cast<Packet*>(msg);
 
-    //sizeVector.record(pck->getByteLength());
+	//sizeVector.record(pck->getByteLength());
 
-    lastArrival = simTime();
+	lastArrival = simTime();
 }
 
 void Receiver::finish()
 {
-    recordStatistic(&iaTimeHistogram);
+	recordStatistic(&iaTimeHistogram);
 }

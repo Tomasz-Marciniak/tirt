@@ -34,6 +34,7 @@ OBJS = \
     $O/Poisson.o \
     $O/RandomSizePacketGenerator.o \
     $O/Receiver.o \
+    $O/RoundRobinScheduler.o \
     $O/SizeBasedAdmissionControl.o \
     $O/Source.o \
     $O/Packet_m.o
@@ -142,6 +143,9 @@ $O/RandomSizePacketGenerator.o: RandomSizePacketGenerator.cc \
 $O/Receiver.o: Receiver.cc \
 	Packet_m.h \
 	Receiver.h
+$O/RoundRobinScheduler.o: RoundRobinScheduler.cc \
+	Packet_m.h \
+	RoundRobinScheduler.h
 $O/SizeBasedAdmissionControl.o: SizeBasedAdmissionControl.cc \
 	Packet_m.h \
 	SizeBasedAdmissionControl.h

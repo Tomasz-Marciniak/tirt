@@ -9,17 +9,17 @@
 class OnOff : public cSimpleModule
 {
 
-  public:
-     cMessage *timerMessage;
-     OnOff();
-     virtual ~OnOff();
+	public:
+		cMessage *timerMessage;
+		OnOff();
+		virtual ~OnOff();
 
-  protected:
-     int limit;
-     int counter;
-    virtual void activity();
-    virtual void initialize();
-    virtual void handleMessage(cMessage *msg);
+	protected:
+		int limit;
+		int counter;
+		virtual void activity();
+		virtual void initialize();
+		virtual void handleMessage(cMessage *msg);
 };
 
 #endif

@@ -21,38 +21,38 @@ Define_Module(Source)
 
 Source::Source()
 {
-    timerMessage = NULL;
+	timerMessage = NULL;
 }
 
 Source::~Source()
 {
-    cancelAndDelete(timerMessage);
+	cancelAndDelete(timerMessage);
 }
 
 cMessage* Source::generateMessage()
 {
-    return new cMessage("timer");
+	return new cMessage("timer");
 }
 
 void Source::initialize()
 {
-    timerMessage = generateMessage();
-    scheduleAt(simTime(), timerMessage);
+	timerMessage = generateMessage();
+	scheduleAt(simTime(), timerMessage);
 }
 
 Packet* Source::generatePacket()
 {
-    return new Packet();
+	return new Packet();
 }
 
 void Source::handleMessage(cMessage *msg)
 {
-    ASSERT(msg == timerMessage);
+	ASSERT(msg == timerMessage);
 
-    Packet *pk = generatePacket();
+	Packet *pk = generatePacket();
 
-    pk->setSrcAddr(1);
-    pk->setDstAddr(1);
-    send(pk, "out");
-    scheduleAt(simTime() + par("sendInterval").doubleValue(), timerMessage);
+	pk->setSrcAddr(1);
+	pk->setDstAddr(1);
+	send(pk, "out");
+	scheduleAt(simTime() + par("sendInterval").doubleValue(), timerMessage);
 }

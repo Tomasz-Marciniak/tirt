@@ -9,18 +9,18 @@
  */
 class Receiver : public cSimpleModule
 {
-  private:
-    // state
-    simtime_t lastArrival;
+	private:
+		// state
+		simtime_t lastArrival;
 
-    // statistics
-    cDoubleHistogram iaTimeHistogram;
-    cOutVector arrivalsVector;
-    cOutVector sizeVector;
-  protected:
-    virtual void initialize();
-    virtual void handleMessage(cMessage *msg);
-    virtual void finish();
+		// statistics
+		cDoubleHistogram iaTimeHistogram;
+		cOutVector arrivalsVector;
+		cOutVector sizeVector;
+	protected:
+		virtual void initialize();
+		virtual void handleMessage(cMessage *msg);
+		virtual void finish();
 };
 
 #endif

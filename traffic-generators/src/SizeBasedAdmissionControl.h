@@ -20,30 +20,29 @@
 
 class SizeBasedAdmissionControl : public cSimpleModule
 {
-    public:
-        SizeBasedAdmissionControl();
-        virtual ~SizeBasedAdmissionControl();
+	public:
+		SizeBasedAdmissionControl();
+		virtual ~SizeBasedAdmissionControl();
 
-    protected:
+	protected:
 
-        //Parameters
-        int minPacketSize;
-        int maxPacketSize;
-        double delay;
+		//Parameters
+		int minPacketSize;
+		int maxPacketSize;
+		double delay;
 
-        //Infrastructure
-        cGate* out;
+		//Infrastructure
+		cGate* out;
 
-        //Accumulators
-        simtime_t lastPacketProcessTime;
+		//Accumulators
+		simtime_t lastPacketProcessTime;
 
-        int32 packetsReceivedIn;
-        int32 packetsSentOut;
+		int32 packetsReceivedIn;int32 packetsSentOut;
 
-        virtual void initialize();
-        virtual bool accept(Packet* packet);
-        virtual void handleMessage(cMessage* msg);
-        virtual void finish();
+		virtual void initialize();
+		virtual bool accept(Packet* packet);
+		virtual void handleMessage(cMessage* msg);
+		virtual void finish();
 };
 
 #endif /* SIZEBASEDADMISSIONCONTROL_H_ */

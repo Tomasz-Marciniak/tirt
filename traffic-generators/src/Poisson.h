@@ -19,10 +19,11 @@
 #include <omnetpp.h>
 #include "Source.h"
 
-class Poisson: public Source {
-public:
-    Poisson();
-    virtual ~Poisson();
+class Poisson : public Source
+{
+	public:
+		Poisson();
+		virtual ~Poisson();
 };
 
 #endif /* POISSON_H_ */

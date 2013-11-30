@@ -29,55 +29,57 @@ SizeBasedAdmissionControl::~SizeBasedAdmissionControl()
 
 void SizeBasedAdmissionControl::initialize()
 {
-    minPacketSize = par("minPacketSize");
-    maxPacketSize = par("maxPacketSize");
-    delay = par("delay");
-    out = gate("out");
+	minPacketSize = par("minPacketSize");
+	maxPacketSize = par("maxPacketSize");
+	delay = par("delay");
+	out = gate("out");
 }
 
 bool SizeBasedAdmissionControl::accept(Packet* packet)
 {
-    int64 packetSize = packet->getByteLength();
-    return packetSize >= minPacketSize && packetSize <= maxPacketSize;
+	int64 packetSize = packet->getByteLength();
+	return packetSize >= minPacketSize && packetSize <= maxPacketSize;
 }
 
 void SizeBasedAdmissionControl::handleMessage(cMessage* msg)
 {
-    if (msg->isSelfMessage())
-    {
-        Packet* pck = check_and_cast<Packet*>(msg);
 
-        if (accept(pck))
-        {
-            EV<< "SizeBasedAdmissionControl accepted packet " << pck->getName() << " with size " << pck->getByteLength() << " \n";
-            cChannel* channel = out->getChannel();
-            if (channel)
-            {
-                simtime_t channelTransmissionFinishTime = channel->getTransmissionFinishTime();
+	EV<< "SizeBasedAdmissionControl::handleMessage called for SenderModuleId " << msg->getSenderModuleId() << "\n";
+	if (msg->isSelfMessage())
+	{
+		Packet* pck = check_and_cast<Packet*>(msg);
 
-                //Calculate time when channel will be available
-                simtime_t sendPostponeTime = std::max(channelTransmissionFinishTime - simTime(), SIMTIME_ZERO);
+		if (accept(pck))
+		{
+			EV<< "SizeBasedAdmissionControl accepted packet " << pck->getName() << " with size " << pck->getByteLength() << " \n";
+			cChannel* channel = out->getChannel();
+			if (channel)
+			{
+				simtime_t channelTransmissionFinishTime = channel->getTransmissionFinishTime();
 
-                sendDelayed(pck, sendPostponeTime, out);
-            }
-            else
-                send(pck, out);
+				//Calculate time when channel will be available
+				simtime_t sendPostponeTime = std::max(channelTransmissionFinishTime - simTime(), SIMTIME_ZERO);
 
-            packetsSentOut++;
-        }
-        else
-        {
-            EV<< "SizeBasedAdmissionControl rejected and removed packet " << pck->getName() << " \n";
-            delete pck;
-        }
-    }
-    else
-    {
-        lastPacketProcessTime = std::max(lastPacketProcessTime + delay, simTime() + delay);
-        scheduleAt(lastPacketProcessTime, msg);
+				sendDelayed(pck, sendPostponeTime, out);
+			}
+			else
+			send(pck, out);
 
-        packetsReceivedIn++;
-    }
+			packetsSentOut++;
+		}
+		else
+		{
+			EV<< "SizeBasedAdmissionControl rejected and removed packet " << pck->getName() << " with size " << pck->getByteLength() << "\n\t\t outside boundaries (" << minPacketSize << ", "<< maxPacketSize <<") \n";
+			delete pck;
+		}
+	}
+	else
+	{
+		lastPacketProcessTime = std::max(lastPacketProcessTime + delay, simTime() + delay);
+		scheduleAt(lastPacketProcessTime, msg);
+
+		packetsReceivedIn++;
+	}
 }
 
 void SizeBasedAdmissionControl::finish()

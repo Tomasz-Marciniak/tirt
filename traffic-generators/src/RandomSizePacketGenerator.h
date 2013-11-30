@@ -16,21 +16,21 @@
 #ifndef RANDOMSIZEPACKETGENERATOR_H_
 #define RANDOMSIZEPACKETGENERATOR_H_
 
-
 #include "Packet_m.h"
 #include "Source.h"
 
-class RandomSizePacketGenerator: public Source{
-    public:
-        RandomSizePacketGenerator();
-        virtual ~RandomSizePacketGenerator();
-    protected:
-        virtual Packet* generatePacket() override;
-        virtual void initialize();
+class RandomSizePacketGenerator : public Source
+{
+	public:
+		RandomSizePacketGenerator();
+		virtual ~RandomSizePacketGenerator();
+	protected:
+		virtual Packet* generatePacket() override;
+		virtual void initialize();
 
-        //Parameters
-        int minPacketSize;
-        int maxPacketSize;
+		//Parameters
+		int minPacketSize;
+		int maxPacketSize;
 };
 
 #endif /* RANDOMSIZEPACKETGENERATOR_H_ */

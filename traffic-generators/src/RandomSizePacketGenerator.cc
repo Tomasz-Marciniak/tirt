@@ -16,7 +16,6 @@
 #include <stdlib.h>
 #include <time.h>
 #include "RandomSizePacketGenerator.h"
-#include "Source.h"
 
 Define_Module(RandomSizePacketGenerator)
 
@@ -32,25 +31,25 @@ RandomSizePacketGenerator::~RandomSizePacketGenerator()
 
 void RandomSizePacketGenerator::initialize()
 {
-    Source::initialize();
-    srand(time(NULL));
-    maxPacketSize = par("maxPacketSize");
-    minPacketSize = par("minPacketSize");
+	Source::initialize();
+	srand(time(NULL));
+	maxPacketSize = par("maxPacketSize");
+	minPacketSize = par("minPacketSize");
 }
 
 Packet* RandomSizePacketGenerator::generatePacket()
 {
-    Packet* packet = Source::generatePacket();
+	Packet* packet = Source::generatePacket();
 
-    // Precaution if someone decided to put max < min :)
+	// Precaution if someone decided to put max < min :)
 
-    int spread = abs(maxPacketSize - minPacketSize);
+	int spread = abs(maxPacketSize - minPacketSize);
 
-    EV<< "spread " << spread <<" \n";
+	EV<< "spread " << spread <<" \n";
 
-    int sizeInBytes = std::min(minPacketSize, maxPacketSize) + rand() % spread;
+	int sizeInBytes = std::min(minPacketSize, maxPacketSize) + rand() % spread;
 
-    packet->setByteLength(sizeInBytes);
-    return packet;
+	packet->setByteLength(sizeInBytes);
+	return packet;
 }
 

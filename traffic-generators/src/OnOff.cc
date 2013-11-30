@@ -15,46 +15,50 @@
 
 #include "OnOff.h"
 
-Define_Module(OnOff);
+Define_Module(OnOff)
+;
 
 OnOff::OnOff()
 {
-    timerMessage = NULL;
+	timerMessage = NULL;
 }
 
 OnOff::~OnOff()
 {
-    cancelAndDelete(timerMessage);
+	cancelAndDelete(timerMessage);
 }
 
 void OnOff::initialize()
 {
-    counter = 0;
-    limit = par("limit");
-    timerMessage = new cMessage("timer");
-    scheduleAt(simTime(), timerMessage);
+	counter = 0;
+	limit = par("limit");
+	timerMessage = new cMessage("timer");
+	scheduleAt(simTime(), timerMessage);
 }
 
 void OnOff::handleMessage(cMessage *msg)
 {
-    counter++;
+	counter++;
 
-    EV << "Counter:" << counter << ", limit:" << limit;
+	EV<< "Counter:" << counter << ", limit:" << limit;
 
-    ASSERT(msg==timerMessage);
-    cMessage *job = new cMessage("job");
-    send(job, "out");
-    scheduleAt(simTime(), timerMessage);
+	ASSERT(msg == timerMessage);
+	cMessage *job = new cMessage("job");
+	send(job, "out");
+	scheduleAt(simTime(), timerMessage);
 }
 
-void OnOff::activity(){
+void OnOff::activity()
+{
 
-    EV << "CZEKAJ!";
+	EV<< "CZEKAJ!";
 
-    if(counter>limit){
-        if(counter==limit*2){
-            counter = 0;
-        }
-        wait(4000);
-    }
+	if(counter>limit)
+	{
+		if(counter==limit*2)
+		{
+			counter = 0;
+		}
+		wait(4000);
+	}
 }

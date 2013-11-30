@@ -4,24 +4,23 @@
 #include <omnetpp.h>
 #include "Packet_m.h"
 
-
 /**
  * Generates messages; see NED file for more info.
  */
 class Source : public cSimpleModule
 {
-    public:
-        cMessage *timerMessage;
-        Source();
-        virtual ~Source();
+	public:
+		cMessage *timerMessage;
+		Source();
+		virtual ~Source();
 
-    protected:
-        virtual void initialize();
-        virtual void handleMessage(cMessage *msg);
-        virtual Packet* generatePacket();
+	protected:
+		virtual void initialize();
+		virtual void handleMessage(cMessage *msg);
+		virtual Packet* generatePacket();
 
-    private:
-        cMessage* generateMessage();
+	private:
+		cMessage* generateMessage();
 };
 
 #endif

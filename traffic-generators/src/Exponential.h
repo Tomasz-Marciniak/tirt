@@ -4,11 +4,12 @@
 #include <omnetpp.h>
 #include "Source.h"
 
-class Exponential: public Source {
+class Exponential : public Source
+{
 
-public:
-    Exponential();
-    virtual ~Exponential();
+	public:
+		Exponential();
+		virtual ~Exponential();
 };
 
 #endif /* Exponential_H_ */
