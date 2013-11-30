@@ -18,8 +18,6 @@
 #include "RandomSizePacketGenerator.h"
 #include "Source.h"
 
-namespace traffic_generators {
-
 Define_Module(RandomSizePacketGenerator)
 
 RandomSizePacketGenerator::RandomSizePacketGenerator()
@@ -53,4 +51,3 @@ Packet* RandomSizePacketGenerator::generatePacket()
     return packet;
 }
 
-} /* namespace traffic_generators */
