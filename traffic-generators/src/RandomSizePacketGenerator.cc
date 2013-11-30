@@ -29,14 +29,13 @@ RandomSizePacketGenerator::RandomSizePacketGenerator()
 
 RandomSizePacketGenerator::~RandomSizePacketGenerator()
 {
-    minPacketSize = par("minPacketSize");
-    maxPacketSize = par("maxPacketSize");
+
 }
 
 void RandomSizePacketGenerator::initialize()
 {
-
-
+    minPacketSize = par("minPacketSize");
+    maxPacketSize = par("maxPacketSize");
 }
 
 Packet* RandomSizePacketGenerator::generatePacket()
