@@ -32,6 +32,8 @@ OBJS = \
     $O/Exponential.o \
     $O/OnOff.o \
     $O/Poisson.o \
+    $O/PriorityBasedAdmissionControl.o \
+    $O/RandomPriorityPacketGenerator.o \
     $O/RandomSizePacketGenerator.o \
     $O/Receiver.o \
     $O/RoundRobinScheduler.o \
@@ -135,6 +137,13 @@ $O/Packet_m.o: Packet_m.cc \
 $O/Poisson.o: Poisson.cc \
 	Packet_m.h \
 	Poisson.h \
+	Source.h
+$O/PriorityBasedAdmissionControl.o: PriorityBasedAdmissionControl.cc \
+	Packet_m.h \
+	PriorityBasedAdmissionControl.h
+$O/RandomPriorityPacketGenerator.o: RandomPriorityPacketGenerator.cc \
+	Packet_m.h \
+	RandomPriorityPacketGenerator.h \
 	Source.h
 $O/RandomSizePacketGenerator.o: RandomSizePacketGenerator.cc \
 	Packet_m.h \
