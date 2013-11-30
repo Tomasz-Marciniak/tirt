@@ -15,13 +15,9 @@
 
 #include "Poisson.h"
 
-namespace traffic_generators {
-
 Poisson::Poisson() {
 
 }
 
 Poisson::~Poisson() {
 }
-
-} /* namespace traffic_generators */

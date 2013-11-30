@@ -20,9 +20,7 @@
 #include "Packet_m.h"
 #include "Source.h"
 
-namespace traffic_generators {
-
-class RandomSizePacketGenerator: public traffic_generators::Source{
+class RandomSizePacketGenerator: public Source{
     public:
         RandomSizePacketGenerator();
         virtual ~RandomSizePacketGenerator();
@@ -35,5 +33,4 @@ class RandomSizePacketGenerator: public traffic_generators::Source{
         int maxPacketSize;
 };
 
-} /* namespace traffic_generators */
 #endif /* RANDOMSIZEPACKETGENERATOR_H_ */

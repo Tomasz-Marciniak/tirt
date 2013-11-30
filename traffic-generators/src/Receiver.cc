@@ -15,8 +15,6 @@
 
 #include "Receiver.h"
 
-namespace traffic_generators {
-
 Define_Module(Receiver);
 
 void Receiver::initialize()
@@ -43,5 +41,3 @@ void Receiver::finish()
 {
     recordStatistic(&iaTimeHistogram);
 }
-
-}; // namespace

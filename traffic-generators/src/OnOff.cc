@@ -15,8 +15,6 @@
 
 #include "OnOff.h"
 
-namespace traffic_generators {
-
 Define_Module(OnOff);
 
 OnOff::OnOff()
@@ -60,5 +58,3 @@ void OnOff::activity(){
         wait(4000);
     }
 }
-
-} /* namespace traffic_generators */

@@ -15,8 +15,6 @@
 
 #include "SizeBasedAdmissionControl.h"
 
-namespace traffic_generators {
-
 Define_Module(SizeBasedAdmissionControl)
 
 SizeBasedAdmissionControl::SizeBasedAdmissionControl()
@@ -86,5 +84,3 @@ void SizeBasedAdmissionControl::finish()
 {
 
 }
-
-} /* namespace traffic_generators */

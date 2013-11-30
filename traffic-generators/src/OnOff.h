@@ -3,8 +3,6 @@
 
 #include <omnetpp.h>
 
-namespace traffic_generators {
-
 /**
  * Generates messages; see NED file for more info.
  */
@@ -23,7 +21,5 @@ class OnOff : public cSimpleModule
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);
 };
-
-}; // namespace
 
 #endif

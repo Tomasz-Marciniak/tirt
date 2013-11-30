@@ -16,15 +16,13 @@
 #ifndef POISSON_H_
 #define POISSON_H_
 
+#include <omnetpp.h>
 #include "Source.h"
 
-namespace traffic_generators {
-
-class Poisson: public traffic_generators::Source {
+class Poisson: public Source {
 public:
     Poisson();
     virtual ~Poisson();
 };
 
-} /* namespace traffic_generators */
 #endif /* POISSON_H_ */
