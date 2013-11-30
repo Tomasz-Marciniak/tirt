@@ -18,7 +18,7 @@ class Source : public cSimpleModule
     protected:
         virtual void initialize();
         virtual void handleMessage(cMessage *msg);
-        Packet* generatePacket();
+        virtual Packet* generatePacket();
 
     private:
         cMessage* generateMessage();

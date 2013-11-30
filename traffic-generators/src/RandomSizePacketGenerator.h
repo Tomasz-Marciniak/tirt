@@ -25,8 +25,7 @@ class RandomSizePacketGenerator: public Source{
         RandomSizePacketGenerator();
         virtual ~RandomSizePacketGenerator();
     protected:
-        virtual Packet* generatePacket();
-        virtual void handleMessage(cMessage *msg);
+        virtual Packet* generatePacket() override;
         virtual void initialize();
 
         //Parameters
