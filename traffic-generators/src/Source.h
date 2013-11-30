@@ -21,6 +21,8 @@ class Source : public cSimpleModule
         virtual void handleMessage(cMessage *msg);
         Packet* generatePacket();
 
+    private:
+        cMessage* generateMessage();
 };
 
 }

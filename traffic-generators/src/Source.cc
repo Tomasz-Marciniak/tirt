@@ -31,9 +31,14 @@ Source::~Source()
     cancelAndDelete(timerMessage);
 }
 
+cMessage* Source::generateMessage()
+{
+    return new cMessage("timer");
+}
+
 void Source::initialize()
 {
-    timerMessage = new cMessage("timer");
+    timerMessage = generateMessage();
     scheduleAt(simTime(), timerMessage);
 }
 

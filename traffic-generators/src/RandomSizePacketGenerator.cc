@@ -24,10 +24,7 @@ Define_Module(RandomSizePacketGenerator)
 
 RandomSizePacketGenerator::RandomSizePacketGenerator()
 {
-    minPacketSize = par("minPacketSize");
-    maxPacketSize = par("maxPacketSize");
 
-    srand(time(NULL));
 }
 
 RandomSizePacketGenerator::~RandomSizePacketGenerator()
@@ -37,18 +34,20 @@ RandomSizePacketGenerator::~RandomSizePacketGenerator()
 
 void RandomSizePacketGenerator::initialize()
 {
-
-
+    Source::initialize();
+    srand(time(NULL));
+    maxPacketSize = par("maxPacketSize");
+    minPacketSize = par("minPacketSize");
 }
 
 Packet* RandomSizePacketGenerator::generatePacket()
 {
     Packet* packet = Source::generatePacket();
 
-    // Precaution if someone decided to put max < min
+    // Precaution if someone decided to put max < min :)
 
     int spread = abs(maxPacketSize - minPacketSize);
-    int sizeInBytes = minPacketSize + rand() % spread;
+    int sizeInBytes = std::min(minPacketSize, maxPacketSize) + rand() % spread;
 
     packet->setByteLength(sizeInBytes);
     return packet;
