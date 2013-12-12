@@ -16,6 +16,9 @@
 #ifndef ROUNDROBINSCHEDULER_H_
 #define ROUNDROBINSCHEDULER_H_
 
+#include <stdlib.h>
+#include <list>
+#include <omnetpp.h>
 #include "Packet_m.h"
 
 class RoundRobinScheduler : public cSimpleModule
@@ -28,9 +31,20 @@ class RoundRobinScheduler : public cSimpleModule
 		virtual void initialize();
 		virtual void handleMessage(cMessage* msg);
 		virtual void finish();
+		void addPacketToQueue(Packet* packet);
+		bool isQueueForAddressExistent(int address);
+		bool isQueueSizeExceeded(int address);
+
+
+		//std::list< std::list<Packet*>* > packetList;
+
+		std::map<int, std::list<Packet*>*>*  packetQueueMap;
+
+		//Parameters
+		unsigned int queueSizeLimit;
+
 
 		//Infrastructure
-		cGate* in;
 		cGate* out;
 
 };

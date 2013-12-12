@@ -27,15 +27,76 @@ RoundRobinScheduler::~RoundRobinScheduler()
 
 void RoundRobinScheduler::initialize()
 {
-	in = gate("in");
 	out = gate("out");
 }
+
 void RoundRobinScheduler::handleMessage(cMessage* msg)
 {
+	Packet* packet = check_and_cast<Packet*>(msg);
 
+	//int srcAddress = packet->getSrcAddr();
 }
+
 void RoundRobinScheduler::finish()
 {
 
+}
+
+void RoundRobinScheduler::addPacketToQueue(Packet* packet)
+{
+	int srcAddress = packet->getSrcAddr();
+
+	if (!isQueueSizeExceeded(srcAddress))
+	{
+
+		if (!isQueueForAddressExistent(srcAddress))
+		{
+			std::list<Packet*>* queueList;
+			packetQueueMap->insert(std::pair<int, std::list<Packet*>*>(srcAddress, queueList));
+		}
+
+		std::map<int, std::list<Packet*>*>::iterator queueIter = packetQueueMap->find(srcAddress);
+		std::list<Packet*>* list = queueIter->second; // first key second value ;)
+		list->push_back(packet);
+
+	}
+	else
+	{
+		packet->
+	}
+
+}
+
+bool RoundRobinScheduler::isQueueForAddressExistent(int address)
+{
+	int keysFound = packetQueueMap->count(address);
+	if (keysFound == 1)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+bool RoundRobinScheduler::isQueueSizeExceeded(int address)
+{
+	std::map<int, std::list<Packet*>*>::iterator queueIter = packetQueueMap->find(address);
+	std::list<Packet*>* list = queueIter->second;
+
+	return isQueueSizeExceeded(list);
+}
+
+bool RoundRobinScheduler::isQueueSizeExceeded(std::list<Packet*>* list)
+{
+	if (queueSizeLimit > (list->size()))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
