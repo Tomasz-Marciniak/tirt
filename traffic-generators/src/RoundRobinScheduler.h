@@ -21,6 +21,12 @@
 #include <omnetpp.h>
 #include "Packet_m.h"
 
+/**
+ * Round Robin Scheduler
+ * @author Tomasz Obszarny
+ * @date 2013
+ * @copyright GNU Public License.
+ */
 class RoundRobinScheduler : public cSimpleModule
 {
 	public:
@@ -32,16 +38,22 @@ class RoundRobinScheduler : public cSimpleModule
 		virtual void handleMessage(cMessage* msg);
 		virtual void finish();
 		void addPacketToQueue(Packet* packet);
-		bool isQueueForAddressExistent(int address);
-		bool isQueueSizeExceeded(int address);
-
-
-		//std::list< std::list<Packet*>* > packetList;
+		Packet* pickupNextPacketFromQueues();
+		Packet* pickupPacketFromQueue(int gateId);
+		bool isQueueForGateExistent(int gateId);
+		bool isQueueSizeExceeded(int gateId);
+		bool isQueueSizeExceeded(std::list<Packet*>* list);
+		bool isOutAttachedWithChannel();
+		std::list<Packet*>* getPacketListForGate(int gateId);
+		void rotateIndex();
 
 		std::map<int, std::list<Packet*>*>*  packetQueueMap;
+		unsigned int queueRotatorIndex;
+		cMessage* internalDispatchingMessage;
 
 		//Parameters
 		unsigned int queueSizeLimit;
+		simtime_t delay;
 
 
 		//Infrastructure
