@@ -36,6 +36,8 @@ void RoundRobinScheduler::initialize()
 	queueRotatorIndex = 0;
 	out = gate("out");
 	packetQueueMap = new std::map<int, std::list<Packet*>*>();
+
+	//inputChannelId = new int[this->gateCount()];
 //	in = gate("in");
 }
 
@@ -98,7 +100,7 @@ void RoundRobinScheduler::addPacketToQueue(Packet* packet)
 
 		std::list<Packet*>* list = getPacketListForGate(srcGateId);
 		list->push_back(packet);
-
+		EV << "RoundRobinScheduler::addPacketToQueue: packet " << packet << " added\n";
 	}
 	else
 	{
@@ -111,6 +113,7 @@ void RoundRobinScheduler::addPacketToQueue(Packet* packet)
 
 Packet* RoundRobinScheduler::pickupNextPacketFromQueues()
 {
+	EV<< "RoundRobinScheduler::pickupNextPacketFromQueues: called \n";
 	Packet* packet = pickupPacketFromQueue(queueRotatorIndex);
 	rotateIndex();
 
@@ -119,6 +122,7 @@ Packet* RoundRobinScheduler::pickupNextPacketFromQueues()
 
 Packet* RoundRobinScheduler::pickupPacketFromQueue(int gateId)
 {
+	EV<< "RoundRobinScheduler::pickupPacketFromQueue: called for gateId=[" << gateId <<"] \n";
 	std::list<Packet*>* list = getPacketListForGate(gateId);
 	//std::list<Packet*>::iterator queueIter = list->begin();
 
@@ -184,16 +188,23 @@ bool RoundRobinScheduler::isOutAttachedWithChannel()
 
 std::list<Packet*>* RoundRobinScheduler::getPacketListForGate(int gateId)
 {
+	EV<< "RoundRobinScheduler::getPacketListForGate: called for gateId=[" << gateId <<"] \n";
 	std::map<int, std::list<Packet*>*>::iterator queueIter = packetQueueMap->find(gateId);
 
-	if(queueIter == packetQueueMap->end())
+	if (queueIter == packetQueueMap->end())
+	{
+		EV << "RoundRobinScheduler::getPacketListForGate: list for gateId=[" << gateId <<"] does not exist, returning NULL \n";
 		return NULL;
+	}
 
+	EV << "RoundRobinScheduler::getPacketListForGate: list for gateId=[" << gateId <<"] exists, returning list\n";
 	return queueIter->second; // first==key, second==value ;)
 }
 
 void RoundRobinScheduler::rotateIndex()
 {
+	unsigned int prevqueueRotatorIndex = queueRotatorIndex;
 	queueRotatorIndex = (queueRotatorIndex + 1) % packetQueueMap->size();
+	EV << "RoundRobinScheduler::rotateIndex: rotated index from " << prevqueueRotatorIndex << " to " << queueRotatorIndex << "\n";
 }
 

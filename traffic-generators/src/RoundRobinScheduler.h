@@ -50,6 +50,7 @@ class RoundRobinScheduler : public cSimpleModule
 		std::map<int, std::list<Packet*>*>*  packetQueueMap;
 		unsigned int queueRotatorIndex;
 		cMessage* internalDispatchingMessage;
+		int inputChannelId[];
 
 		//Parameters
 		unsigned int queueSizeLimit;
