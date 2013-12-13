@@ -55,6 +55,10 @@ void RoundRobinScheduler::handleMessage(cMessage* msg)
 			EV<< "RoundRobinScheduler::handleMessage: packet sent to out gate \n";
 			scheduleAt(simTime() + delay, internalDispatchingMessage);
 		}
+		else
+		{
+			EV<< "RoundRobinScheduler::handleMessage: packet was NULL \n";
+		}
 
 	}
 	else
@@ -65,7 +69,12 @@ void RoundRobinScheduler::handleMessage(cMessage* msg)
 
 		if(!internalDispatchingMessage->isScheduled())
 		{
+			EV<< "RoundRobinScheduler::handleMessage: scheduling next self invocation \n";
 			scheduleAt(simTime() + delay, internalDispatchingMessage);
+		}
+		else
+		{
+			EV<< "RoundRobinScheduler::handleMessage: next self invocation already scheduled \n";
 		}
 
 	}
@@ -167,23 +176,28 @@ bool RoundRobinScheduler::isQueueSizeExceeded(int gateId)
 	if (isQueueForGateExistent(gateId))
 	{
 		std::list<Packet*>* list = getPacketListForGate(gateId);
-
-		return isQueueSizeExceeded(list);
+		bool exceeded = isQueueSizeExceeded(list);
+		EV<< "RoundRobinScheduler::isQueueSizeExceeded(int): queue size " << (exceeded?"is":"isn't") << " exceeded, current size = ["<< list->size() <<"] \n";
+		return exceeded;
 	}
 	else
 	{
+		EV<< "RoundRobinScheduler::isQueueSizeExceeded(int): queue does not exist yet thus not exceeded \n";
 		return false;
 	}
 }
 
 bool RoundRobinScheduler::isQueueSizeExceeded(std::list<Packet*>* list)
 {
-	if (queueSizeLimit > (list->size()))
+	unsigned int size = list->size();
+	if (queueSizeLimit <= size)
 	{
+		EV<< "RoundRobinScheduler::isQueueSizeExceeded(list): exceeded, limit = [" << queueSizeLimit << "], current size = ["<< size <<"] \n";
 		return true;
 	}
 	else
 	{
+		EV << "RoundRobinScheduler::isQueueSizeExceeded(list): not exceeded, limit = [" << queueSizeLimit << "], current size = ["<< size <<"] \n";
 		return false;
 	}
 }
