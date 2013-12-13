@@ -37,8 +37,7 @@ void RoundRobinScheduler::initialize()
 	out = gate("out");
 	packetQueueMap = new std::map<int, std::list<Packet*>*>();
 
-	//inputChannelId = new int[this->gateCount()];
-//	in = gate("in");
+	inputChannelIds = getInputChannelIds();
 }
 
 void RoundRobinScheduler::handleMessage(cMessage* msg)
@@ -49,13 +48,13 @@ void RoundRobinScheduler::handleMessage(cMessage* msg)
 		// Sending the messages takes place here
 
 		Packet* packet = pickupNextPacketFromQueues();
-
+		EV<< "RoundRobinScheduler::handleMessage: packet = [" << msg << "] \n";
 		if (packet)
 		{
 			send(packet, out);
+			EV<< "RoundRobinScheduler::handleMessage: packet sent to out gate \n";
+			scheduleAt(simTime() + delay, internalDispatchingMessage);
 		}
-
-		scheduleAt(simTime() + delay, internalDispatchingMessage);
 
 	}
 	else
@@ -114,9 +113,11 @@ void RoundRobinScheduler::addPacketToQueue(Packet* packet)
 Packet* RoundRobinScheduler::pickupNextPacketFromQueues()
 {
 	EV<< "RoundRobinScheduler::pickupNextPacketFromQueues: called \n";
-	Packet* packet = pickupPacketFromQueue(queueRotatorIndex);
-	rotateIndex();
 
+	int chanelId = getChannelIdByIndex(queueRotatorIndex);
+	Packet* packet = pickupPacketFromQueue(chanelId);
+	rotateIndex();
+	EV<< "RoundRobinScheduler::pickupNextPacketFromQueues: returning packet= [" << packet << "] \n";
 	return packet;
 }
 
@@ -136,7 +137,13 @@ Packet* RoundRobinScheduler::pickupPacketFromQueue(int gateId)
 			packet = list->front();
 			list->pop_front();
 		}
+		else
+		{
+			EV<< "RoundRobinScheduler::pickupPacketFromQueue: list was empty\n";
+		}
 	}
+
+	EV<< "RoundRobinScheduler::pickupPacketFromQueue: returning packet= [" << packet << "] \n";
 
 	return packet;
 }
@@ -205,6 +212,25 @@ void RoundRobinScheduler::rotateIndex()
 {
 	unsigned int prevqueueRotatorIndex = queueRotatorIndex;
 	queueRotatorIndex = (queueRotatorIndex + 1) % packetQueueMap->size();
-	EV << "RoundRobinScheduler::rotateIndex: rotated index from " << prevqueueRotatorIndex << " to " << queueRotatorIndex << "\n";
+	EV<< "RoundRobinScheduler::rotateIndex: rotated index from " << prevqueueRotatorIndex << " to " << queueRotatorIndex << "\n";
 }
 
+int* RoundRobinScheduler::getInputChannelIds()
+{
+	int channelCount = this->gateSize("in");
+	EV<< "RoundRobinScheduler::getInputChannelIds: channelCount= " << channelCount << "\n";
+	int *inputChannelIds = new int[channelCount];
+	for (int i = 0; i < channelCount; i++)
+	{
+		*(inputChannelIds + i) = gate("in", i)->getId();
+		EV<< "RoundRobinScheduler::getInputChannelIds: Stored gateId "<< gate("in",i)->getId() << " \n";
+	}
+	return inputChannelIds;
+}
+
+int RoundRobinScheduler::getChannelIdByIndex(int index)
+{
+	int id = *(inputChannelIds + index);
+	EV<< "RoundRobinScheduler::getChannelIdByIndex: returned id= [" << id << "] for index= [" << index << "] \n";
+	return id;
+}

@@ -17,7 +17,6 @@
 #define ROUNDROBINSCHEDULER_H_
 
 #include <stdlib.h>
-#include <list>
 #include <omnetpp.h>
 #include "Packet_m.h"
 
@@ -46,11 +45,13 @@ class RoundRobinScheduler : public cSimpleModule
 		bool isOutAttachedWithChannel();
 		std::list<Packet*>* getPacketListForGate(int gateId);
 		void rotateIndex();
+		int* getInputChannelIds();
+		int getChannelIdByIndex(int index);
 
 		std::map<int, std::list<Packet*>*>*  packetQueueMap;
 		unsigned int queueRotatorIndex;
 		cMessage* internalDispatchingMessage;
-		int inputChannelId[];
+		int* inputChannelIds;
 
 		//Parameters
 		unsigned int queueSizeLimit;
@@ -60,6 +61,8 @@ class RoundRobinScheduler : public cSimpleModule
 		//Infrastructure
 		cGate* out;
 //		cGate* in[];
+
+
 
 };
 
