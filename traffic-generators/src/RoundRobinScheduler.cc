@@ -25,7 +25,8 @@ RoundRobinScheduler::RoundRobinScheduler()
 
 RoundRobinScheduler::~RoundRobinScheduler()
 {
-
+	//TODO: Cleanup leaks
+	//packetQueueMap->begin()
 }
 
 void RoundRobinScheduler::initialize()
@@ -34,6 +35,8 @@ void RoundRobinScheduler::initialize()
 	delay = par("delay");
 	queueRotatorIndex = 0;
 	out = gate("out");
+	packetQueueMap = new std::map<int, std::list<Packet*>*>();
+//	in = gate("in");
 }
 
 void RoundRobinScheduler::handleMessage(cMessage* msg)
@@ -85,7 +88,7 @@ void RoundRobinScheduler::addPacketToQueue(Packet* packet)
 		if (!isQueueForGateExistent(srcGateId))
 		{
 			EV << "RoundRobinScheduler::addPacketToQueue: queue for gate " << srcGateId << " does not exist, creating one\n";
-			std::list<Packet*>* queueList;
+			std::list<Packet*>* queueList = new std::list<Packet*>();
 			packetQueueMap->insert(std::pair<int, std::list<Packet*>*>(srcGateId, queueList));
 		}
 		else
@@ -117,10 +120,19 @@ Packet* RoundRobinScheduler::pickupNextPacketFromQueues()
 Packet* RoundRobinScheduler::pickupPacketFromQueue(int gateId)
 {
 	std::list<Packet*>* list = getPacketListForGate(gateId);
-	std::list<Packet*>::iterator queueIter = list->begin();
+	//std::list<Packet*>::iterator queueIter = list->begin();
 
-	Packet* packet = list->front();
-	list->pop_front();
+	Packet* packet = NULL;
+
+	if (list)
+	{
+
+		if (!list->empty())
+		{
+			packet = list->front();
+			list->pop_front();
+		}
+	}
 
 	return packet;
 }
@@ -173,6 +185,9 @@ bool RoundRobinScheduler::isOutAttachedWithChannel()
 std::list<Packet*>* RoundRobinScheduler::getPacketListForGate(int gateId)
 {
 	std::map<int, std::list<Packet*>*>::iterator queueIter = packetQueueMap->find(gateId);
+
+	if(queueIter == packetQueueMap->end())
+		return NULL;
 
 	return queueIter->second; // first==key, second==value ;)
 }

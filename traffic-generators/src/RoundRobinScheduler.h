@@ -58,6 +58,7 @@ class RoundRobinScheduler : public cSimpleModule
 
 		//Infrastructure
 		cGate* out;
+//		cGate* in[];
 
 };
 
