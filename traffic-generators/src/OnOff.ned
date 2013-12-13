@@ -9,4 +9,6 @@ simple OnOff
         int limit = default(10);
     gates:
         output out;
+        output self;
+        input in;
 }

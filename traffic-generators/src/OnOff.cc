@@ -42,23 +42,21 @@ void OnOff::handleMessage(cMessage *msg)
 
 	EV<< "Counter:" << counter << ", limit:" << limit;
 
-	ASSERT(msg == timerMessage);
-	cMessage *job = new cMessage("job");
-	send(job, "out");
-	scheduleAt(simTime(), timerMessage);
-}
-
-void OnOff::activity()
-{
-
-	EV<< "CZEKAJ!";
-
 	if(counter>limit)
 	{
 		if(counter==limit*2)
 		{
 			counter = 0;
 		}
-		wait(4000);
+		cMessage *job = new cMessage("job");
+		send(job, "self");
+		//scheduleAt(simTime(), timerMessage);
+	}else{
+		cMessage *job = new cMessage("job");
+		send(job, "out");
+		scheduleAt(simTime(), timerMessage);
 	}
+	//ASSERT(msg == timerMessage);
+
 }
+

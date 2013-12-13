@@ -29,4 +29,5 @@ network OnOff
         receiver: Receiver;
     connections:
         source.out --> receiver.in;
+        source.self --> source.in;
 }
