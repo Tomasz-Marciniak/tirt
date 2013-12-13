@@ -17,7 +17,6 @@ class OnOff : public cSimpleModule
 	protected:
 		int limit;
 		int counter;
-		virtual void activity();
 		virtual void initialize();
 		virtual void handleMessage(cMessage *msg);
 };
