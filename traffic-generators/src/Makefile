@@ -30,7 +30,7 @@ O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 # Object files for local .cc and .msg files
 OBJS = \
     $O/Exponential.o \
-    $O/LeakyBucket.o \
+    $O/LeakyBucketProfiler.o \
     $O/OnOff.o \
     $O/Poisson.o \
     $O/PriorityBasedAdmissionControl.o \
@@ -41,6 +41,7 @@ OBJS = \
     $O/RoundRobinScheduler.o \
     $O/SizeBasedAdmissionControl.o \
     $O/Source.o \
+    $O/WeightedRoundRobinScheduler.o \
     $O/Packet_m.o
 
 # Message files
@@ -132,10 +133,10 @@ $O/Exponential.o: Exponential.cc \
 	Exponential.h \
 	Packet_m.h \
 	Source.h
-$O/LeakyBucket.o: LeakyBucket.cc \
-	LeakyBucket.h \
+$O/LeakyBucketProfiler.o: LeakyBucketProfiler.cc \
+	LeakyBucketProfiler.h \
 	Packet_m.h \
-	SchedulerType.h
+	ProfilerType.h
 $O/OnOff.o: OnOff.cc \
 	OnOff.h
 $O/Packet_m.o: Packet_m.cc \
@@ -171,4 +172,8 @@ $O/SizeBasedAdmissionControl.o: SizeBasedAdmissionControl.cc \
 $O/Source.o: Source.cc \
 	Packet_m.h \
 	Source.h
+$O/WeightedRoundRobinScheduler.o: WeightedRoundRobinScheduler.cc \
+	Packet_m.h \
+	SchedulerType.h \
+	WeightedRoundRobinScheduler.h
 
