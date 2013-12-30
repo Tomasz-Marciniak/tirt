@@ -27,57 +27,118 @@ PriorityQueue::~PriorityQueue()
 
 }
 
+struct PacketComparator
+{
+		bool operator()(Packet *left, Packet *right)
+		{
+			// Descending, highest priority at front of the queue, use less-than for ascending
+			return (left->getPriority() > right->getPriority());
+		}
+} packetComparator;
+
 void PriorityQueue::initialize()
 {
+	//Parameters
 	priority = par("priority");
 	delay = par("delay");
-	out = gate("out");
-}
+	capacity = par("capacity");
 
-bool PriorityQueue::accept(Packet* packet)
-{
-	int packetPriority = packet->getPriority();
-	return packetPriority >= priority ;
+	//gates
+	out = gate("out");
+
+	//accumulators
+	limitedQueueList = new std::list<Packet*>();
+
+	internalDispatchingMessage = new cMessage("PriorityQueue");
+
 }
 
 void PriorityQueue::handleMessage(cMessage* msg)
 {
 
 	EV<< "PriorityQueue::handleMessage called for SenderModuleId " << msg->getSenderModuleId() << "\n";
-	if (msg->isSelfMessage())
+	if (msg == internalDispatchingMessage)
 	{
-		Packet* pck = check_and_cast<Packet*>(msg);
 
-		if (accept(pck))
+		Packet* pck = getFromQueue();
+
+		if(pck)
 		{
-			EV<< "PriorityQueue accepted packet " << pck->getName() << " with priority " << pck->getPriority() << " \n";
+
 			cChannel* channel = out->getChannel();
-			if (channel)
+
+			simtime_t sendPostponeTime;
+			if(channel)
 			{
 				simtime_t channelTransmissionFinishTime = channel->getTransmissionFinishTime();
 
 				//Calculate time when channel will be available
-				simtime_t sendPostponeTime = std::max(channelTransmissionFinishTime - simTime(), SIMTIME_ZERO);
+				sendPostponeTime = channelTransmissionFinishTime - simTime();
 
-				sendDelayed(pck, sendPostponeTime, out);
+				simtime_t simtimePlusDelay = simTime() + delay;
+
+				if (sendPostponeTime < simtimePlusDelay)
+				{
+					sendPostponeTime = simtimePlusDelay;
+				}
+
 			}
 			else
-			send(pck, out);
+			{
+				sendPostponeTime = simTime() + delay;
+			}
+
+			sendDelayed(pck, sendPostponeTime, out);
 
 			packetsSentOut++;
 		}
-		else
-		{
-			EV<< "PriorityQueue rejected and removed packet " << pck->getName() << " with priority " << pck->getPriority() << "\n\t\t below limit " << priority << " \n";
-			delete pck;
-		}
+
 	}
 	else
 	{
-		lastPacketProcessTime = std::max(lastPacketProcessTime + delay, simTime() + delay);
-		scheduleAt(lastPacketProcessTime, msg);
+		Packet* pck = check_and_cast<Packet*>(msg);
+
+		put2queue(pck);
 
 		packetsReceivedIn++;
+
+		if(!internalDispatchingMessage->isScheduled())
+		{
+			scheduleAt(simTime() + delay, internalDispatchingMessage);
+		}
+
+	}
+}
+
+void PriorityQueue::put2queue(Packet* packet)
+{
+	int currentCapacity = limitedQueueList->size();
+	if (currentCapacity < capacity)
+	{
+		EV<< "PriorityQueue::put2queue: Packet accepted by queue. Used capacity = "<< currentCapacity << " of " << capacity << endl;
+		limitedQueueList->push_back(packet);
+		limitedQueueList->sort(packetComparator);
+	}
+	else
+	{
+		EV<< "PriorityQueue::put2queue: Packet rejected by queue. Used capacity = "<< currentCapacity << " of " << capacity << endl;
+		EV<< "PriorityQueue::put2queue: Packet " << *packet << " deleted" << endl;
+		delete(packet);
+	}
+
+}
+
+Packet* PriorityQueue::getFromQueue()
+{
+	if (limitedQueueList->size() > 0)
+	{
+		Packet* packet = limitedQueueList->front();
+		limitedQueueList->pop_front();
+		return packet;
+	}
+	else
+	{
+		return NULL;
 	}
 }
 
@@ -85,3 +146,4 @@ void PriorityQueue::finish()
 {
 
 }
+

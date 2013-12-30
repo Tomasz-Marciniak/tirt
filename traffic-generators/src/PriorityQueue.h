@@ -16,8 +16,15 @@
 #ifndef SIZEBASEDADMISSIONCONTROL_H_
 #define SIZEBASEDADMISSIONCONTROL_H_
 
+#include <algorithm>
 #include "Packet_m.h"
 
+/**
+ * Priority Queue Scheduler
+ * @author Tomasz Obszarny
+ * @date 2013
+ * @copyright GNU Public License.
+ */
 class PriorityQueue : public cSimpleModule
 {
 	public:
@@ -29,19 +36,24 @@ class PriorityQueue : public cSimpleModule
 		//Parameters
 		int priority;
 		double delay;
+		int capacity;
 
 		//Infrastructure
 		cGate* out;
 
 		//Accumulators
 		simtime_t lastPacketProcessTime;
+		cMessage* internalDispatchingMessage;
 
-		int32 packetsReceivedIn;int32 packetsSentOut;
+		int32 packetsReceivedIn;
+		int32 packetsSentOut;
+		std::list<Packet*>* limitedQueueList;
 
 		virtual void initialize();
-		virtual bool accept(Packet* packet);
 		virtual void handleMessage(cMessage* msg);
 		virtual void finish();
+		virtual void put2queue(Packet* packet);
+		virtual Packet* getFromQueue();
 };
 
 #endif /* SIZEBASEDADMISSIONCONTROL_H_ */

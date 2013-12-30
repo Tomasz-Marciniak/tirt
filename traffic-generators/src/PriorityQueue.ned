@@ -27,6 +27,7 @@ simple PriorityQueue
         @display("i=block/control");
 
         double delay @unit("s") = default(0s);
+        int capacity = default(5);
 
     gates:
         input in[];

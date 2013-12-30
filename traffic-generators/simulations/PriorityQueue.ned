@@ -32,17 +32,21 @@ network PriorityQueue
         receiver: Receiver {
             @display("p=347,126");
         }
-        priorityBasedAdmissionControl: PriorityQueue {
-            @display("p=188,132");
-        }
         randomPriorityPacketGenerator1: RandomPriorityPacketGenerator {
-            @display("p=26,69");
+            @display("p=38,57");
+        }
+        priorityQueue: PriorityQueue {
+            @display("p=185,126");
         }
         randomPriorityPacketGenerator2: RandomPriorityPacketGenerator {
-            @display("p=26,171");
+            @display("p=38,126");
+        }
+        randomPriorityPacketGenerator3: RandomPriorityPacketGenerator {
+            @display("p=38,192");
         }
     connections:
-        priorityBasedAdmissionControl.out --> receiver.in;
-        randomPriorityPacketGenerator1.out --> priorityBasedAdmissionControl.in++;
-        randomPriorityPacketGenerator2.out --> priorityBasedAdmissionControl.in++;
+        randomPriorityPacketGenerator1.out --> priorityQueue.in++;
+        randomPriorityPacketGenerator2.out --> priorityQueue.in++;
+        randomPriorityPacketGenerator3.out --> priorityQueue.in++;
+        priorityQueue.out --> receiver.in;
 }
