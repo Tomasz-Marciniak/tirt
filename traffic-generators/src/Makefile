@@ -41,6 +41,7 @@ OBJS = \
     $O/RoundRobinScheduler.o \
     $O/SizeBasedAdmissionControl.o \
     $O/Source.o \
+    $O/TokenBucketProfiler.o \
     $O/WeightedRoundRobinScheduler.o \
     $O/Packet_m.o
 
@@ -172,6 +173,10 @@ $O/SizeBasedAdmissionControl.o: SizeBasedAdmissionControl.cc \
 $O/Source.o: Source.cc \
 	Packet_m.h \
 	Source.h
+$O/TokenBucketProfiler.o: TokenBucketProfiler.cc \
+	Packet_m.h \
+	ProfilerType.h \
+	TokenBucketProfiler.h
 $O/WeightedRoundRobinScheduler.o: WeightedRoundRobinScheduler.cc \
 	Packet_m.h \
 	SchedulerType.h \

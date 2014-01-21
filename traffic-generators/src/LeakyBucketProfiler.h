@@ -28,7 +28,6 @@ class LeakyBucketProfiler : public cSimpleModule
 
 		std::list<Packet*>* packetList;
 		cMessage* internalDispatchingMessage;
-		int inputChannelId[];
 
 		//Parameters
 		unsigned int queueSizeLimit;
