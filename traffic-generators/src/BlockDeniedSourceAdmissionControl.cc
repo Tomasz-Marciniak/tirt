@@ -126,6 +126,18 @@ bool BlockDeniedSourceAdmissionControl::isInTheList(std::string item, std::list<
 	std::list<std::string*>::const_iterator end = list->end();
 	std::list<std::string*>::const_iterator fetchedItem = std::find(list->begin(), list->end(), &item);
 
-	return (fetchedItem != list->end());
+	bool found = false;
+	for (std::list<std::string*>::const_iterator iterator = list->begin(), end = list->end(); iterator != end && !found; ++iterator)
+	{
+		std::string *currentBlockedListElement = *iterator;
+		if (item == *currentBlockedListElement)
+		{
+			EV<< "BlockDeniedSourceAdmissionControl::isInTheList() found " << item << " \n";
+			found = true;
+			break;
+		}
+	}
+
+	return found;
 }
 
