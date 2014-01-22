@@ -21,7 +21,7 @@
 #include "Packet_m.h"
 
 /**
- * Round Robin Scheduler
+ * Weighted Round Robin Scheduler
  * @author Tomasz Obszarny
  * @date 2013
  * @copyright GNU Public License.
