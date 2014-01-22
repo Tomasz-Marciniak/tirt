@@ -30,6 +30,7 @@ O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 # Object files for local .cc and .msg files
 OBJS = \
     $O/BlockDeniedSourceAdmissionControl.o \
+    $O/DualLeakyBucketProfiler.o \
     $O/Exponential.o \
     $O/FIFOQueue.o \
     $O/LeakyBucketProfiler.o \
@@ -135,6 +136,10 @@ depend:
 $O/BlockDeniedSourceAdmissionControl.o: BlockDeniedSourceAdmissionControl.cc \
 	BlockDeniedSourceAdmissionControl.h \
 	Packet_m.h
+$O/DualLeakyBucketProfiler.o: DualLeakyBucketProfiler.cc \
+	DualLeakyBucketProfiler.h \
+	Packet_m.h \
+	ProfilerType.h
 $O/Exponential.o: Exponential.cc \
 	Exponential.h \
 	Packet_m.h \
