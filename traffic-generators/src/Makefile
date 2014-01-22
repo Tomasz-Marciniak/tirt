@@ -29,6 +29,7 @@ O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 
 # Object files for local .cc and .msg files
 OBJS = \
+    $O/BlockDeniedSourceAdmissionControl.o \
     $O/Exponential.o \
     $O/LeakyBucketProfiler.o \
     $O/OnOff.o \
@@ -129,6 +130,9 @@ depend:
 	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cc
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
+$O/BlockDeniedSourceAdmissionControl.o: BlockDeniedSourceAdmissionControl.cc \
+	BlockDeniedSourceAdmissionControl.h \
+	Packet_m.h
 $O/Exponential.o: Exponential.cc \
 	Exponential.h \
 	Packet_m.h \
