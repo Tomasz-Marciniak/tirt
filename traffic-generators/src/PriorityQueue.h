@@ -13,8 +13,8 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef SIZEBASEDADMISSIONCONTROL_H_
-#define SIZEBASEDADMISSIONCONTROL_H_
+#ifndef PRIORITYQUEUE_H_
+#define PRIORITYQUEUE_H_
 
 #include <algorithm>
 #include "Packet_m.h"

@@ -13,15 +13,15 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef ROUNDROBINSCHEDULER_H_
-#define ROUNDROBINSCHEDULER_H_
+#ifndef WEIGHTEDROUNDROBINSCHEDULER_H_
+#define WEIGHTEDROUNDROBINSCHEDULER_H_
 
 #include <stdlib.h>
 #include <omnetpp.h>
 #include "Packet_m.h"
 
 /**
- * Round Robin Scheduler
+ * Weighted Round Robin Scheduler
  * @author Tomasz Obszarny
  * @date 2013
  * @copyright GNU Public License.

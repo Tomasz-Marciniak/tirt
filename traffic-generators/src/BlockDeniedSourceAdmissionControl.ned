@@ -13,24 +13,23 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef RANDOMPRIORITYPACKETGENERATOR_H_
-#define RANDOMPRIORITYPACKETGENERATOR_H_
+package traffic_generators;
 
+//
+// TODO auto-generated type
+//
+simple BlockDeniedSourceAdmissionControl
+{
+    parameters:
+        volatile int priority = default(3);
 
-#include "Packet_m.h"
-#include "Source.h"
+        @class(BlockDeniedSourceAdmissionControl);
+        @display("i=block/control");
 
-class RandomPriorityPacketGenerator: public Source{
-    public:
-        RandomPriorityPacketGenerator();
-        virtual ~RandomPriorityPacketGenerator();
-    protected:
-        virtual Packet* generatePacket() override;
-        virtual void initialize();
+        double delay @unit("s") = default(0s);
+        string blocked = default("");
 
-        //Parameters
-        int minPacketPriority;
-        int maxPacketPriority;
-};
-
-#endif /* RANDOMSIZEPACKETGENERATOR_H_ */
+    gates:
+        input in[];
+        output out;
+}

@@ -13,22 +13,29 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef PRIORITYBASEDADMISSIONCONTROL_H_
-#define PRIORITYBASEDADMISSIONCONTROL_H_
+#ifndef BLOCKDENIEDSOURCEADMISSIONCONTROL_H_
+#define BLOCKDENIEDSOURCEADMISSIONCONTROL_H_
 
 #include "Packet_m.h"
 
-class PriorityBasedAdmissionControl : public cSimpleModule
+/**
+ * Block Denied Source Admission Control
+ * @author Tomasz Obszarny
+ * @date 2013
+ * @copyright GNU Public License.
+ */
+class BlockDeniedSourceAdmissionControl : public cSimpleModule
 {
 	public:
-		PriorityBasedAdmissionControl();
-		virtual ~PriorityBasedAdmissionControl();
+		BlockDeniedSourceAdmissionControl();
+		virtual ~BlockDeniedSourceAdmissionControl();
 
 	protected:
 
 		//Parameters
-		int priority;
 		double delay;
+		std::string blockedPar;
+		std::list<std::string*>* blockedList;
 
 		//Infrastructure
 		cGate* out;
@@ -42,6 +49,8 @@ class PriorityBasedAdmissionControl : public cSimpleModule
 		virtual bool accept(Packet* packet);
 		virtual void handleMessage(cMessage* msg);
 		virtual void finish();
+		virtual void parseSources(std::string blockedSources, std::list<std::string*>* blockedList) throw ();
+		virtual bool isInTheList(std::string item, std::list<std::string*>* list);
 };
 
 #endif /* SIZEBASEDADMISSIONCONTROL_H_ */

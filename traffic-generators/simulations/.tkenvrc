@@ -1,3 +1,4 @@
 # Partial Tkenv config file -- see $HOME/.tkenvrc as well
 inspector "PriorityQueue" "PriorityQueue" "2" "565x342+175+175:normal"
+inspector "TokenBucketProfiler" "TokenBucketProfiler" "2" "565x342+2971+174:normal"
 
