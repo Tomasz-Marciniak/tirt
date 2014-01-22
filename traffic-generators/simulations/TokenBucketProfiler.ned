@@ -21,9 +21,13 @@ network TokenBucketProfiler
         poisson: traffic_generators.Poisson {
             @display("p=74,158");
         }
+        randomSize: traffic_generators.RandomSizePacketGenerator {
+            @display("p=160,197");
+        }
     connections:
         tokenBucketProfiler.out --> receiver.in;
         source.out --> tokenBucketProfiler.in++;
         exponential.out --> tokenBucketProfiler.in++;
         poisson.out --> tokenBucketProfiler.in++;
+        randomSize.out --> tokenBucketProfiler.in++;
 }
