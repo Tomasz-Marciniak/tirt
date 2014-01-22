@@ -25,7 +25,6 @@ class TokenBucketProfiler : public cSimpleModule
 		virtual void finish();
 		void addPacketToQueue(Packet* packet);
 		Packet* pickupPacketFromQueue(std::list<Packet*>* list);
-		bool isQueueSizeExceeded(std::list<Packet*>* list);
 
 		std::list<Packet*>* packetList;
 		cMessage* internalDispatchingMessage;

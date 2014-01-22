@@ -71,11 +71,14 @@ void TokenBucketProfiler::addPacketToQueue(Packet* packet)
 
 	if (timeDiff > 0)
 		tokensCount = std::min((int32_t) (tokensCount + tokensToAdd * timeDiff.dbl()), tokensMax);
+
+	EV<< "TokenBucketProfiler:: tokensCount:  " << tokensCount << "\n";
+
 	lastTokenAddedTime = currentTime;
 
 	if (packet == lastDelayedPacket)
 	{
-
+		packetList->push_back(packet);
 	}
 	else if (packet->getByteLength() <= tokensCount)
 	{
@@ -88,7 +91,14 @@ void TokenBucketProfiler::addPacketToQueue(Packet* packet)
 	else
 	{
 		lastDelayedPacket = packet;
+
 		delay = (double)(packet->getByteLength() - tokensCount) / tokensToAdd;
+
+		EV<< "TokenBucketProfiler:: delay: packet->getByteLength() : "<< packet->getByteLength() << "\n";
+		EV<< "TokenBucketProfiler:: delay: tokensCount: "<< tokensCount << "\n";
+		EV<< "TokenBucketProfiler:: delay: tokensToAdd: "<< tokensToAdd << "\n";
+		EV<< "TokenBucketProfiler:: delay: delay: "<< delay << "\n";
+
 		tokensCount -= packet->getByteLength();
 	}
 
@@ -106,19 +116,4 @@ Packet* TokenBucketProfiler::pickupPacketFromQueue(std::list<Packet*>* list)
 	}
 
 	return packet;
-}
-
-bool TokenBucketProfiler::isQueueSizeExceeded(std::list<Packet*>* list)
-{
-	unsigned int size = list->size();
-	if (queueSizeLimit <= size)
-	{
-		EV<< "TokenBucketProfiler::isQueueSizeExceeded(list): exceeded, limit = [" << queueSizeLimit << "], current size = ["<< size <<"] \n";
-		return true;
-	}
-	else
-	{
-		EV << "TokenBucketProfiler::isQueueSizeExceeded(list): not exceeded, limit = [" << queueSizeLimit << "], current size = ["<< size <<"] \n";
-		return false;
-	}
 }
