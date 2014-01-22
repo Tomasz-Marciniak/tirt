@@ -30,6 +30,7 @@ O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 # Object files for local .cc and .msg files
 OBJS = \
     $O/Exponential.o \
+    $O/FIFOQueue.o \
     $O/LeakyBucketProfiler.o \
     $O/OnOff.o \
     $O/Poisson.o \
@@ -134,6 +135,9 @@ $O/Exponential.o: Exponential.cc \
 	Exponential.h \
 	Packet_m.h \
 	Source.h
+$O/FIFOQueue.o: FIFOQueue.cc \
+	FIFOQueue.h \
+	Packet_m.h
 $O/LeakyBucketProfiler.o: LeakyBucketProfiler.cc \
 	LeakyBucketProfiler.h \
 	Packet_m.h \
