@@ -31,18 +31,18 @@ network BlockDeniedSourceAdmissionControl
         receiver: Receiver {
             @display("p=379,92");
         }
-        source: Source {
-            @display("p=74,25");
+        source3: Source {
+            @display("p=74,104");
         }
-        exponential: traffic_generators.Exponential {
-            @display("p=74,89");
+        source1: Source {
+            @display("p=74,40");
         }
-        poisson: traffic_generators.Poisson {
-            @display("p=74,158");
+        source2: Source {
+            @display("p=74,175");
         }
     connections:
         blockDeniedSourceAdmissionControl.out --> receiver.in;
-        source.out --> blockDeniedSourceAdmissionControl.in++;
-        exponential.out --> blockDeniedSourceAdmissionControl.in++;
-        poisson.out --> blockDeniedSourceAdmissionControl.in++;
+        source3.out --> blockDeniedSourceAdmissionControl.in++;
+        source1.out --> blockDeniedSourceAdmissionControl.in++;
+        source2.out --> blockDeniedSourceAdmissionControl.in++;
 }

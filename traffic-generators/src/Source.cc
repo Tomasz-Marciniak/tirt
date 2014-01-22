@@ -36,6 +36,7 @@ cMessage* Source::generateMessage()
 
 void Source::initialize()
 {
+	srcAddr = par("srcAddr");
 	timerMessage = generateMessage();
 	scheduleAt(simTime(), timerMessage);
 }
@@ -51,7 +52,7 @@ void Source::handleMessage(cMessage *msg)
 
 	Packet *pk = generatePacket();
 
-	pk->setSrcAddr(1);
+	pk->setSrcAddr(srcAddr);
 	pk->setDstAddr(1);
 	send(pk, "out");
 	scheduleAt(simTime() + par("sendInterval").doubleValue(), timerMessage);

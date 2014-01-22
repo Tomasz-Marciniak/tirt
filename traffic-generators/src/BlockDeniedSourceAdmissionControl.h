@@ -35,7 +35,7 @@ class BlockDeniedSourceAdmissionControl : public cSimpleModule
 		//Parameters
 		double delay;
 		std::string blockedPar;
-		std::list<std::string*>* blockedList;
+		std::list<int>* blackList;
 
 		//Infrastructure
 		cGate* out;
@@ -49,8 +49,9 @@ class BlockDeniedSourceAdmissionControl : public cSimpleModule
 		virtual bool accept(Packet* packet);
 		virtual void handleMessage(cMessage* msg);
 		virtual void finish();
-		virtual void parseSources(std::string blockedSources, std::list<std::string*>* blockedList) throw ();
-		virtual bool isInTheList(std::string item, std::list<std::string*>* list);
+		virtual void parseSources(std::string blockedSources, std::list<int>* blockedList) throw ();
+		virtual bool isInTheList(int item, std::list<int>* list);
+		virtual void printList(std::list<int>* list);
 };
 
 #endif /* SIZEBASEDADMISSIONCONTROL_H_ */

@@ -13,14 +13,15 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include <algorithm>
 #include "BlockDeniedSourceAdmissionControl.h"
 
 Define_Module(BlockDeniedSourceAdmissionControl)
 
 BlockDeniedSourceAdmissionControl::BlockDeniedSourceAdmissionControl()
 {
-	blockedList = new std::list<std::string*>();
+	blackList = new std::list<int>;
+
+	EV<< "list size " << blackList->size() << "\n";
 }
 
 BlockDeniedSourceAdmissionControl::~BlockDeniedSourceAdmissionControl()
@@ -30,19 +31,18 @@ BlockDeniedSourceAdmissionControl::~BlockDeniedSourceAdmissionControl()
 
 void BlockDeniedSourceAdmissionControl::initialize()
 {
-	blockedPar = par("blocked").stdstringValue();
+	blockedPar = par("blackList").stdstringValue();
 	delay = par("delay");
 	out = gate("out");
 
-	parseSources(blockedPar, blockedList);
+	parseSources(blockedPar, blackList);
 
 }
 
 bool BlockDeniedSourceAdmissionControl::accept(Packet* packet)
 {
-	int packetPriority = packet->getPriority();
-//	return packetPriority >= priority;
-	return false;
+	int srcAddr = packet->getSrcAddr();
+	return !isInTheList(srcAddr, blackList);
 }
 
 void BlockDeniedSourceAdmissionControl::handleMessage(cMessage* msg)
@@ -57,7 +57,7 @@ void BlockDeniedSourceAdmissionControl::handleMessage(cMessage* msg)
 
 		if (accept(pck))
 		{
-			EV<< "BlockDeniedSourceAdmissionControl accepted packet " << pck->getName() << " with priority " << pck->getPriority() << " \n";
+			EV<< "BlockDeniedSourceAdmissionControl accepted packet " << pck->getName() << " from source address " << pck->getSrcAddr() << " \n";
 			cChannel* channel = out->getChannel();
 			if (channel)
 			{
@@ -75,7 +75,7 @@ void BlockDeniedSourceAdmissionControl::handleMessage(cMessage* msg)
 		}
 		else
 		{
-//			EV<< "BlockDeniedSourceAdmissionControl rejected and removed packet " << pck->getName() << " with priority " << pck->getPriority() << "\n\t\t below limit " << priority << " \n";
+			EV<< "BlockDeniedSourceAdmissionControl rejected and removed packet " << pck->getName() << " from source address " << pck->getSrcAddr() << "\n";
 			delete pck;
 		}
 	}
@@ -93,51 +93,57 @@ void BlockDeniedSourceAdmissionControl::finish()
 
 }
 
-void BlockDeniedSourceAdmissionControl::parseSources(std::string blockedSources, std::list<std::string*>* blockedList) throw ()
+void BlockDeniedSourceAdmissionControl::parseSources(std::string blockedSources, std::list<int>* blockedList) throw ()
 {
 	cStringTokenizer moduleTokenizer(blockedSources.c_str());
 
 	while (moduleTokenizer.hasMoreTokens())
 	{
 
+		printList(blockedList);
 		std::string blockedSource(moduleTokenizer.nextToken());
 
-//		for (std::list<std::string*>::const_iterator iterator = blockedList->begin(), end = blockedList->end(); iterator != end && !found; ++iterator)
-//		{
-//			std::string *currentBlockedListElement = *iterator;
-//			if (blockedSource == *currentBlockedListElement)
-//			{
-//				found = true;
-//				break;
-//			}
-//		}
+		int srcAddr = atoi(blockedSource.c_str());
 
-		if (!isInTheList(blockedSource, blockedList))
-		{
-			EV<< "BlockDeniedSourceAdmissionControl::parseSources() adding source " << blockedSource << " \n";
-			blockedList->push_back(&blockedSource);
-		}
+		EV<< "BlockDeniedSourceAdmissionControl::parseSources() adding source " << blockedSource << " \n";
+		blockedList->push_back(srcAddr);
+
 	}
 }
 
-bool BlockDeniedSourceAdmissionControl::isInTheList(std::string item, std::list<std::string*>* list)
+bool BlockDeniedSourceAdmissionControl::isInTheList(int item, std::list<int>* list)
 {
-	EV<< "BlockDeniedSourceAdmissionControl::isInTheList() called" << " \n";
-	std::list<std::string*>::const_iterator end = list->end();
-	std::list<std::string*>::const_iterator fetchedItem = std::find(list->begin(), list->end(), &item);
+	EV<< "BlockDeniedSourceAdmissionControl::isInTheList() called for " << item << " \n";
 
 	bool found = false;
-	for (std::list<std::string*>::const_iterator iterator = list->begin(), end = list->end(); iterator != end && !found; ++iterator)
+	int i = 0;
+	for (std::list<int>::const_iterator iterator = list->begin(), end = list->end(); iterator != end && !found; ++iterator)
 	{
-		std::string *currentBlockedListElement = *iterator;
-		if (item == *currentBlockedListElement)
+		int currentBlockedListElement = *iterator;
+		if (currentBlockedListElement == item)
 		{
-			EV<< "BlockDeniedSourceAdmissionControl::isInTheList() found " << item << " \n";
+			EV<< "BlockDeniedSourceAdmissionControl::isInTheList() found " << item << " on list position " << i++ << ", item "<< currentBlockedListElement << "\n";
 			found = true;
-			break;
 		}
 	}
 
 	return found;
+}
+
+void BlockDeniedSourceAdmissionControl::printList(std::list<int>* list)
+{
+	EV<< "BlockDeniedSourceAdmissionControl::printList() called \n";
+
+	int i=0;
+	if(list->begin()!=list->end())
+	{
+		for (std::list<int>::const_iterator iterator = list->begin(), end = list->end(); iterator != end; ++iterator)
+		{
+			int currentBlockedListElement = *iterator;
+			EV<< "Item " << i++ << " is "  << currentBlockedListElement << "\n";
+
+		}
+	}
+
 }
 

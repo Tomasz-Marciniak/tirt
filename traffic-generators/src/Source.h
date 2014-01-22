@@ -21,6 +21,7 @@ class Source : public cSimpleModule
 
 	private:
 		cMessage* generateMessage();
+		int srcAddr;
 };
 
 #endif

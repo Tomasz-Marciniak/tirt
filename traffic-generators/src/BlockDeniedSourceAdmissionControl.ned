@@ -27,7 +27,7 @@ simple BlockDeniedSourceAdmissionControl
         @display("i=block/control");
 
         double delay @unit("s") = default(0s);
-        string blocked = default("");
+        string blackList = default("");
 
     gates:
         input in[];
