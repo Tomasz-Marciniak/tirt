@@ -1,5 +1,5 @@
-#ifndef LEAKYBUCKETPROFILER_H_
-#define LEAKYBUCKETPROFILER_H_
+#ifndef TOKENBUCKETPROFILER_H_
+#define TOKENBUCKETPROFILER_H_
 
 #include <stdlib.h>
 #include <list>
@@ -7,16 +7,17 @@
 #include "Packet_m.h"
 
 /**
- * Leaky Bucket
+ * Token Bucket
  * @author Tomasz Marciniak
  * @date 2013
  * @copyright GNU Public License.
  */
-class LeakyBucketProfiler : public cSimpleModule
+class TokenBucketProfiler : public cSimpleModule
 {
+
 	public:
-		LeakyBucketProfiler();
-		virtual ~LeakyBucketProfiler();
+		TokenBucketProfiler();
+		virtual ~TokenBucketProfiler();
 
 	protected:
 		virtual void initialize();
@@ -24,10 +25,17 @@ class LeakyBucketProfiler : public cSimpleModule
 		virtual void finish();
 		void addPacketToQueue(Packet* packet);
 		Packet* pickupPacketFromQueue(std::list<Packet*>* list);
-		bool isQueueSizeExceeded(std::list<Packet*>* list);
 
 		std::list<Packet*>* packetList;
 		cMessage* internalDispatchingMessage;
+
+		Packet* lastDelayedPacket;
+
+
+		int32_t tokensMax;
+		int32_t tokensCount;
+		int32_t tokensToAdd;
+		simtime_t lastTokenAddedTime;
 
 		//Parameters
 		unsigned int queueSizeLimit;
@@ -37,4 +45,4 @@ class LeakyBucketProfiler : public cSimpleModule
 		cGate* out;
 };
 
-#endif /* LEAKYBUCKETPROFILER_H_ */
+#endif /* TOKENBUCKETPROFILER_H_ */

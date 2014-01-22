@@ -13,24 +13,23 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef RANDOMPRIORITYPACKETGENERATOR_H_
-#define RANDOMPRIORITYPACKETGENERATOR_H_
+package traffic_generators;
 
+//
+// TODO auto-generated type
+//
+simple TokenBucketProfiler
+{
+    parameters:
 
-#include "Packet_m.h"
-#include "Source.h"
+        @class(TokenBucketProfiler);
+        @display("i=block/join");
 
-class RandomPriorityPacketGenerator: public Source{
-    public:
-        RandomPriorityPacketGenerator();
-        virtual ~RandomPriorityPacketGenerator();
-    protected:
-        virtual Packet* generatePacket() override;
-        virtual void initialize();
-
-        //Parameters
-        int minPacketPriority;
-        int maxPacketPriority;
-};
-
-#endif /* RANDOMSIZEPACKETGENERATOR_H_ */
+        double delay @unit("s") = default(0s);
+        int queueSizeLimit = default(5);
+        int tokensMax @unit("B") = default(1MiB);
+        int tokensToAdd @unit("B") = default(64KiB);
+    gates:
+        input in[];
+        output out;
+}

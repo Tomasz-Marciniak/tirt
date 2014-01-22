@@ -13,8 +13,8 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef SIZEBASEDADMISSIONCONTROL_H_
-#define SIZEBASEDADMISSIONCONTROL_H_
+#ifndef BLOCKDENIEDSOURCEADMISSIONCONTROL_H_
+#define BLOCKDENIEDSOURCEADMISSIONCONTROL_H_
 
 #include "Packet_m.h"
 
