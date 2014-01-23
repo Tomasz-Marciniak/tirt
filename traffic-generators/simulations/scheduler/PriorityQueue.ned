@@ -13,9 +13,9 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package traffic_generators.simulations;
+package traffic_generators.simulations.scheduler;
 
-import traffic_generators.PriorityQueue;
+import traffic_generators.scheduler.PriorityQueue;
 import traffic_generators.RandomPriorityPacketGenerator;
 import traffic_generators.RandomSizePacketGenerator;
 import traffic_generators.Receiver;
@@ -25,31 +25,28 @@ import traffic_generators.Source;
 //
 // TODO auto-generated type
 //
-network FIFOQueue
+network PriorityQueue
 {
-        submodules:
-        FIFOQueue: traffic_generators.FIFOQueue {
-            @display("p=242,92");
-        }
+    @display("bgl=3");
+    submodules:
         receiver: Receiver {
-            @display("p=379,92");
+            @display("p=347,126");
         }
-        source: Source {
-            @display("p=74,25");
+        randomPriorityPacketGenerator1: RandomPriorityPacketGenerator {
+            @display("p=38,57");
         }
-        exponential: traffic_generators.Exponential {
-            @display("p=74,89");
+        priorityQueue: PriorityQueue {
+            @display("p=185,126");
         }
-        poisson: traffic_generators.Poisson {
-            @display("p=74,158");
+        randomPriorityPacketGenerator2: RandomPriorityPacketGenerator {
+            @display("p=38,126");
         }
-        randomSize: traffic_generators.RandomSizePacketGenerator {
-            @display("p=160,197");
+        randomPriorityPacketGenerator3: RandomPriorityPacketGenerator {
+            @display("p=38,192");
         }
     connections:
-        FIFOQueue.out --> receiver.in;
-        source.out --> FIFOQueue.in++;
-        exponential.out --> FIFOQueue.in++;
-        poisson.out --> FIFOQueue.in++;
-        randomSize.out --> FIFOQueue.in++;
+        randomPriorityPacketGenerator1.out --> priorityQueue.in++;
+        randomPriorityPacketGenerator2.out --> priorityQueue.in++;
+        randomPriorityPacketGenerator3.out --> priorityQueue.in++;
+        priorityQueue.out --> receiver.in;
 }

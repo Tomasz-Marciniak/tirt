@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package traffic_generators;
+package traffic_generators.profiler;
 
 //
 // TODO auto-generated type

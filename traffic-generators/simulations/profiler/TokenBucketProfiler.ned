@@ -1,4 +1,4 @@
-package traffic_generators.simulations;
+package traffic_generators.simulations.profiler;
 
 import traffic_generators.Receiver;
 import traffic_generators.Source;
@@ -6,7 +6,7 @@ import traffic_generators.Source;
 network TokenBucketProfiler
 {
     submodules:
-        tokenBucketProfiler: traffic_generators.TokenBucketProfiler {
+        tokenBucketProfiler: traffic_generators.profiler.TokenBucketProfiler {
             @display("p=242,92");
         }
         receiver: Receiver {

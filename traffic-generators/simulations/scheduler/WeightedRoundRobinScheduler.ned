@@ -13,9 +13,8 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package traffic_generators.simulations;
+package traffic_generators.simulations.scheduler;
 
-import traffic_generators.RandomSizePacketGenerator;
 import traffic_generators.Receiver;
 import traffic_generators.Source;
 
@@ -23,24 +22,27 @@ import traffic_generators.Source;
 //
 // TODO auto-generated type
 //
-network SizeBasedAdmissionControl
+network WeightedRoundRobinScheduler
 {
-    @display("bgl=3");
     submodules:
-        sizeBasedAdmissionControl: traffic_generators.SizeBasedAdmissionControl {
-            @display("p=211,132");
+        weightedRoundRobinScheduler: traffic_generators.scheduler.WeightedRoundRobinScheduler {
+            @display("p=242,92");
         }
         receiver: Receiver {
-            @display("p=346,132");
+            @display("p=379,92");
         }
-        randomSizePacketGenerator1: RandomSizePacketGenerator {
-            @display("p=31,74");
+        source: Source {
+            @display("p=74,25");
         }
-        randomSizePacketGenerator2: RandomSizePacketGenerator {
-            @display("p=31,201");
+        exponential: traffic_generators.Exponential {
+            @display("p=74,89");
+        }
+        poisson: traffic_generators.Poisson {
+            @display("p=74,158");
         }
     connections:
-        sizeBasedAdmissionControl.out --> receiver.in;
-        randomSizePacketGenerator1.out --> sizeBasedAdmissionControl.in++;
-        randomSizePacketGenerator2.out --> sizeBasedAdmissionControl.in++;
+        weightedRoundRobinScheduler.out --> receiver.in;
+        source.out --> weightedRoundRobinScheduler.in++;
+        exponential.out --> weightedRoundRobinScheduler.in++;
+        poisson.out --> weightedRoundRobinScheduler.in++;
 }

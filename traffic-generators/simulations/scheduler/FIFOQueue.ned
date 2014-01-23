@@ -13,9 +13,9 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package traffic_generators.simulations;
+package traffic_generators.simulations.scheduler;
 
-import traffic_generators.PriorityQueue;
+import traffic_generators.scheduler.FIFOQueue;
 import traffic_generators.RandomPriorityPacketGenerator;
 import traffic_generators.RandomSizePacketGenerator;
 import traffic_generators.Receiver;
@@ -25,28 +25,31 @@ import traffic_generators.Source;
 //
 // TODO auto-generated type
 //
-network PriorityQueue
+network FIFOQueue
 {
-    @display("bgl=3");
-    submodules:
+        submodules:
+        FIFOQueue: traffic_generators.scheduler.FIFOQueue {
+            @display("p=242,92");
+        }
         receiver: Receiver {
-            @display("p=347,126");
+            @display("p=379,92");
         }
-        randomPriorityPacketGenerator1: RandomPriorityPacketGenerator {
-            @display("p=38,57");
+        source: Source {
+            @display("p=74,25");
         }
-        priorityQueue: PriorityQueue {
-            @display("p=185,126");
+        exponential: traffic_generators.Exponential {
+            @display("p=74,89");
         }
-        randomPriorityPacketGenerator2: RandomPriorityPacketGenerator {
-            @display("p=38,126");
+        poisson: traffic_generators.Poisson {
+            @display("p=74,158");
         }
-        randomPriorityPacketGenerator3: RandomPriorityPacketGenerator {
-            @display("p=38,192");
+        randomSize: traffic_generators.RandomSizePacketGenerator {
+            @display("p=160,197");
         }
     connections:
-        randomPriorityPacketGenerator1.out --> priorityQueue.in++;
-        randomPriorityPacketGenerator2.out --> priorityQueue.in++;
-        randomPriorityPacketGenerator3.out --> priorityQueue.in++;
-        priorityQueue.out --> receiver.in;
+        FIFOQueue.out --> receiver.in;
+        source.out --> FIFOQueue.in++;
+        exponential.out --> FIFOQueue.in++;
+        poisson.out --> FIFOQueue.in++;
+        randomSize.out --> FIFOQueue.in++;
 }

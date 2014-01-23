@@ -1,7 +1,7 @@
 #include "LeakyBucketProfiler.h"
 #include "ProfilerType.h"
 
-Define_Module(LeakyBucketProfiler)
+Define_Module(LeakyBucketProfiler);
 
 LeakyBucketProfiler::LeakyBucketProfiler()
 {
