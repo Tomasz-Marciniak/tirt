@@ -1,10 +1,10 @@
-package traffic_generators;
+package traffic_generators.scheduler;
 
-simple DualLeakyBucketProfiler
+simple RoundRobinScheduler
 {
     parameters:
 
-        @class(DualLeakyBucketProfiler);
+        @class(RoundRobinScheduler);
         @display("i=block/join");
 
         double delay @unit("s") = default(0s);

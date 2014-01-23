@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package traffic_generators.simulations;
+package traffic_generators.simulations.scheduler;
 
 import traffic_generators.Receiver;
 import traffic_generators.Source;
@@ -22,10 +22,10 @@ import traffic_generators.Source;
 //
 // TODO auto-generated type
 //
-network WeightedRoundRobinScheduler
+network RoundRobinScheduler
 {
     submodules:
-        weightedRoundRobinScheduler: traffic_generators.WeightedRoundRobinScheduler {
+        roundRobinScheduler: traffic_generators.scheduler.RoundRobinScheduler {
             @display("p=242,92");
         }
         receiver: Receiver {
@@ -41,8 +41,8 @@ network WeightedRoundRobinScheduler
             @display("p=74,158");
         }
     connections:
-        weightedRoundRobinScheduler.out --> receiver.in;
-        source.out --> weightedRoundRobinScheduler.in++;
-        exponential.out --> weightedRoundRobinScheduler.in++;
-        poisson.out --> weightedRoundRobinScheduler.in++;
+        roundRobinScheduler.out --> receiver.in;
+        source.out --> roundRobinScheduler.in++;
+        exponential.out --> roundRobinScheduler.in++;
+        poisson.out --> roundRobinScheduler.in++;
 }
