@@ -43,6 +43,9 @@ class BlockDeniedSourceAdmissionControl : public cSimpleModule
 		//Accumulators
 		simtime_t lastPacketProcessTime;
 
+	 	int32 rejected;
+	 	int32 accepted;
+
 		int32 packetsReceivedIn;int32 packetsSentOut;
 
 		virtual void initialize();
@@ -52,6 +55,10 @@ class BlockDeniedSourceAdmissionControl : public cSimpleModule
 		virtual void parseSources(std::string blockedSources, std::list<int>* blockedList) throw ();
 		virtual bool isInTheList(int item, std::list<int>* list);
 		virtual void printList(std::list<int>* list);
+
+	private:
+		simsignal_t signalAccepted;
+		simsignal_t signalRejected;
 };
 
 #endif /* SIZEBASEDADMISSIONCONTROL_H_ */

@@ -26,7 +26,8 @@ BlockDeniedSourceAdmissionControl::BlockDeniedSourceAdmissionControl()
 
 BlockDeniedSourceAdmissionControl::~BlockDeniedSourceAdmissionControl()
 {
-
+	rejected = 0;
+	accepted = 0;
 }
 
 void BlockDeniedSourceAdmissionControl::initialize()
@@ -37,17 +38,19 @@ void BlockDeniedSourceAdmissionControl::initialize()
 
 	parseSources(blockedPar, blackList);
 
+	//Statistics
+    signalAccepted = registerSignal("accepted");
+    signalRejected = registerSignal("rejected");
+
 }
 
 bool BlockDeniedSourceAdmissionControl::accept(Packet* packet)
 {
-	int srcAddr = packet->getSrcAddr();
-	return !isInTheList(srcAddr, blackList);
+	return !isInTheList(packet->getSrcAddr(), blackList);
 }
 
 void BlockDeniedSourceAdmissionControl::handleMessage(cMessage* msg)
 {
-
 	EV<< "BlockDeniedSourceAdmissionControl::handleMessage called for SenderModuleId " << msg->getSenderModuleId() << "\n";
 	if (msg->isSelfMessage())
 	{
@@ -70,13 +73,14 @@ void BlockDeniedSourceAdmissionControl::handleMessage(cMessage* msg)
 			}
 			else
 			send(pck, out);
-
+			accepted++;
 			packetsSentOut++;
 		}
 		else
 		{
 			EV<< "BlockDeniedSourceAdmissionControl rejected and removed packet " << pck->getName() << " from source address " << pck->getSrcAddr() << "\n";
 			delete pck;
+			rejected++;
 		}
 	}
 	else
@@ -86,6 +90,10 @@ void BlockDeniedSourceAdmissionControl::handleMessage(cMessage* msg)
 
 		packetsReceivedIn++;
 	}
+
+	//
+    emit(signalAccepted, accepted);
+    emit(signalRejected, rejected);
 }
 
 void BlockDeniedSourceAdmissionControl::finish()
