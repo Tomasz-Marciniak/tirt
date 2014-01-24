@@ -41,6 +41,7 @@ OBJS = \
     $O/admissioncontrol/SizeBasedAdmissionControl.o \
     $O/profiler/DualLeakyBucketProfiler.o \
     $O/profiler/LeakyBucketProfiler.o \
+    $O/profiler/LeakyBucketProfiler2.o \
     $O/profiler/TokenBucketProfiler.o \
     $O/scheduler/FIFOQueue.o \
     $O/scheduler/PriorityQueue.o \
@@ -179,6 +180,10 @@ $O/profiler/LeakyBucketProfiler.o: profiler/LeakyBucketProfiler.cc \
 	Packet_m.h \
 	ProfilerType.h \
 	profiler/LeakyBucketProfiler.h
+$O/profiler/LeakyBucketProfiler2.o: profiler/LeakyBucketProfiler2.cc \
+	Packet_m.h \
+	ProfilerType.h \
+	profiler/LeakyBucketProfiler2.h
 $O/profiler/TokenBucketProfiler.o: profiler/TokenBucketProfiler.cc \
 	Packet_m.h \
 	ProfilerType.h \
