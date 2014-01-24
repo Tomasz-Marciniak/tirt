@@ -1,5 +1,5 @@
 # Partial Tkenv config file -- see $HOME/.tkenvrc as well
-inspector "BlockDeniedSourceAdmissionControl" "BlockDeniedSourceAdmissionControl" "2" "806x342+865+275:normal"
 inspector "PriorityQueue" "PriorityQueue" "2" "565x342+175+175:normal"
+inspector "BlockDeniedSourceAdmissionControl" "BlockDeniedSourceAdmissionControl" "2" "806x342+865+275:normal"
 inspector "TokenBucketProfiler" "TokenBucketProfiler" "2" "565x342+2971+174:normal"
 

@@ -81,7 +81,7 @@ void BlockDeniedSourceAdmissionControl::handleMessage(cMessage* msg)
 
 			accepted++;
 			packetsSentOut++;
-			emit(signalAccepted, 1);
+			emit(signalAccepted, accepted);
 
 			histogram.collect(simTime());
 		}
@@ -90,7 +90,7 @@ void BlockDeniedSourceAdmissionControl::handleMessage(cMessage* msg)
 			EV<< "BlockDeniedSourceAdmissionControl rejected and removed packet " << pck->getName() << " from source address " << pck->getSrcAddr() << "\n";
 			delete pck;
 			rejected++;
-			emit(signalRejected, 1);
+			emit(signalRejected, rejected);
 		}
 	}
 	else

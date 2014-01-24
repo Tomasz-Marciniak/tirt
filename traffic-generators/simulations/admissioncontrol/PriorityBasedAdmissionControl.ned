@@ -1,10 +1,10 @@
 package traffic_generators.simulations.admissioncontrol;
 
 import traffic_generators.admissioncontrol.PriorityBasedAdmissionControl;
-import traffic_generators.RandomPriorityPacketGenerator;
-import traffic_generators.RandomSizePacketGenerator;
-import traffic_generators.Receiver;
-import traffic_generators.Source;
+import traffic_generators.generators.RandomPriorityPacketGenerator;
+import traffic_generators.generators.RandomSizePacketGenerator;
+import traffic_generators.receivers.Receiver;
+import traffic_generators.generators.Source;
 
 network PriorityBasedAdmissionControl
 {

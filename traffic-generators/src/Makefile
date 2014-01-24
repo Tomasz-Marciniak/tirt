@@ -14,7 +14,14 @@ USERIF_LIBS = $(ALL_ENV_LIBS) # that is, $(TKENV_LIBS) $(CMDENV_LIBS)
 #USERIF_LIBS = $(TKENV_LIBS)
 
 # C++ include paths (with -I)
-INCLUDE_PATH = -I. -Iadmissioncontrol -Iprofiler -Ischeduler
+INCLUDE_PATH = \
+    -I. \
+    -Iadmissioncontrol \
+    -Igenerators \
+    -Imessages \
+    -Iprofilers \
+    -Ireceivers \
+    -Ischedulers
 
 # Additional object and library files to link with
 EXTRA_OBJS =
@@ -29,29 +36,30 @@ O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 
 # Object files for local .cc and .msg files
 OBJS = \
-    $O/Exponential.o \
-    $O/OnOff.o \
-    $O/Poisson.o \
-    $O/RandomPriorityPacketGenerator.o \
-    $O/RandomSizePacketGenerator.o \
-    $O/Receiver.o \
-    $O/Source.o \
     $O/admissioncontrol/BlockDeniedSourceAdmissionControl.o \
     $O/admissioncontrol/PriorityBasedAdmissionControl.o \
     $O/admissioncontrol/SizeBasedAdmissionControl.o \
-    $O/profiler/DualLeakyBucketProfiler.o \
-    $O/profiler/LeakyBucketProfiler.o \
-    $O/profiler/LeakyBucketProfiler2.o \
-    $O/profiler/TokenBucketProfiler.o \
-    $O/scheduler/FIFOQueue.o \
-    $O/scheduler/PriorityQueue.o \
-    $O/scheduler/RoundRobinScheduler.o \
-    $O/scheduler/WeightedRoundRobinScheduler.o \
-    $O/Packet_m.o
+    $O/admissioncontrol/TailDropAdmissionControl.o \
+    $O/generators/Exponential.o \
+    $O/generators/OnOff.o \
+    $O/generators/Poisson.o \
+    $O/generators/RandomPriorityPacketGenerator.o \
+    $O/generators/RandomSizePacketGenerator.o \
+    $O/generators/Source.o \
+    $O/profilers/DualLeakyBucketProfiler.o \
+    $O/profilers/LeakyBucketProfiler.o \
+    $O/profilers/LeakyBucketProfiler2.o \
+    $O/profilers/TokenBucketProfiler.o \
+    $O/receivers/Receiver.o \
+    $O/schedulers/FIFOQueue.o \
+    $O/schedulers/PriorityQueue.o \
+    $O/schedulers/RoundRobinScheduler.o \
+    $O/schedulers/WeightedRoundRobinScheduler.o \
+    $O/messages/Packet_m.o
 
 # Message files
 MSGFILES = \
-    Packet.msg
+    messages/Packet.msg
 
 #------------------------------------------------------------------------------
 
@@ -126,80 +134,86 @@ clean:
 	$(Q)-rm -f traffic-generators traffic-generators.exe libtraffic-generators.so libtraffic-generators.a libtraffic-generators.dll libtraffic-generators.dylib
 	$(Q)-rm -f ./*_m.cc ./*_m.h
 	$(Q)-rm -f admissioncontrol/*_m.cc admissioncontrol/*_m.h
-	$(Q)-rm -f profiler/*_m.cc profiler/*_m.h
-	$(Q)-rm -f scheduler/*_m.cc scheduler/*_m.h
+	$(Q)-rm -f generators/*_m.cc generators/*_m.h
+	$(Q)-rm -f messages/*_m.cc messages/*_m.h
+	$(Q)-rm -f profilers/*_m.cc profilers/*_m.h
+	$(Q)-rm -f receivers/*_m.cc receivers/*_m.h
+	$(Q)-rm -f schedulers/*_m.cc schedulers/*_m.h
 
 cleanall: clean
 	$(Q)-rm -rf $(PROJECT_OUTPUT_DIR)
 
 depend:
 	$(qecho) Creating dependencies...
-	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cc admissioncontrol/*.cc profiler/*.cc scheduler/*.cc
+	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cc admissioncontrol/*.cc generators/*.cc messages/*.cc profilers/*.cc receivers/*.cc schedulers/*.cc
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
-$O/Exponential.o: Exponential.cc \
-	Exponential.h \
-	Packet_m.h \
-	Source.h
-$O/OnOff.o: OnOff.cc \
-	OnOff.h
-$O/Packet_m.o: Packet_m.cc \
-	Packet_m.h
-$O/Poisson.o: Poisson.cc \
-	Packet_m.h \
-	Poisson.h \
-	Source.h
-$O/RandomPriorityPacketGenerator.o: RandomPriorityPacketGenerator.cc \
-	Packet_m.h \
-	RandomPriorityPacketGenerator.h \
-	Source.h
-$O/RandomSizePacketGenerator.o: RandomSizePacketGenerator.cc \
-	Packet_m.h \
-	RandomSizePacketGenerator.h \
-	Source.h
-$O/Receiver.o: Receiver.cc \
-	Packet_m.h \
-	Receiver.h
-$O/Source.o: Source.cc \
-	Packet_m.h \
-	Source.h
 $O/admissioncontrol/BlockDeniedSourceAdmissionControl.o: admissioncontrol/BlockDeniedSourceAdmissionControl.cc \
-	Packet_m.h \
-	admissioncontrol/BlockDeniedSourceAdmissionControl.h
+	admissioncontrol/BlockDeniedSourceAdmissionControl.h \
+	messages/Packet_m.h
 $O/admissioncontrol/PriorityBasedAdmissionControl.o: admissioncontrol/PriorityBasedAdmissionControl.cc \
-	Packet_m.h \
-	admissioncontrol/PriorityBasedAdmissionControl.h
+	admissioncontrol/PriorityBasedAdmissionControl.h \
+	messages/Packet_m.h
 $O/admissioncontrol/SizeBasedAdmissionControl.o: admissioncontrol/SizeBasedAdmissionControl.cc \
-	Packet_m.h \
-	admissioncontrol/SizeBasedAdmissionControl.h
-$O/profiler/DualLeakyBucketProfiler.o: profiler/DualLeakyBucketProfiler.cc \
-	Packet_m.h \
-	ProfilerType.h \
-	profiler/DualLeakyBucketProfiler.h
-$O/profiler/LeakyBucketProfiler.o: profiler/LeakyBucketProfiler.cc \
-	Packet_m.h \
-	ProfilerType.h \
-	profiler/LeakyBucketProfiler.h
-$O/profiler/LeakyBucketProfiler2.o: profiler/LeakyBucketProfiler2.cc \
-	Packet_m.h \
-	ProfilerType.h \
-	profiler/LeakyBucketProfiler2.h
-$O/profiler/TokenBucketProfiler.o: profiler/TokenBucketProfiler.cc \
-	Packet_m.h \
-	ProfilerType.h \
-	profiler/TokenBucketProfiler.h
-$O/scheduler/FIFOQueue.o: scheduler/FIFOQueue.cc \
-	Packet_m.h \
-	scheduler/FIFOQueue.h
-$O/scheduler/PriorityQueue.o: scheduler/PriorityQueue.cc \
-	Packet_m.h \
-	scheduler/PriorityQueue.h
-$O/scheduler/RoundRobinScheduler.o: scheduler/RoundRobinScheduler.cc \
-	Packet_m.h \
-	SchedulerType.h \
-	scheduler/RoundRobinScheduler.h
-$O/scheduler/WeightedRoundRobinScheduler.o: scheduler/WeightedRoundRobinScheduler.cc \
-	Packet_m.h \
-	SchedulerType.h \
-	scheduler/WeightedRoundRobinScheduler.h
+	admissioncontrol/SizeBasedAdmissionControl.h \
+	messages/Packet_m.h
+$O/admissioncontrol/TailDropAdmissionControl.o: admissioncontrol/TailDropAdmissionControl.cc \
+	admissioncontrol/TailDropAdmissionControl.h \
+	messages/Packet_m.h
+$O/generators/Exponential.o: generators/Exponential.cc \
+	generators/Exponential.h \
+	generators/Source.h \
+	messages/Packet_m.h
+$O/generators/OnOff.o: generators/OnOff.cc \
+	generators/OnOff.h
+$O/generators/Poisson.o: generators/Poisson.cc \
+	generators/Poisson.h \
+	generators/Source.h \
+	messages/Packet_m.h
+$O/generators/RandomPriorityPacketGenerator.o: generators/RandomPriorityPacketGenerator.cc \
+	generators/RandomPriorityPacketGenerator.h \
+	generators/Source.h \
+	messages/Packet_m.h
+$O/generators/RandomSizePacketGenerator.o: generators/RandomSizePacketGenerator.cc \
+	generators/RandomSizePacketGenerator.h \
+	generators/Source.h \
+	messages/Packet_m.h
+$O/generators/Source.o: generators/Source.cc \
+	generators/Source.h \
+	messages/Packet_m.h
+$O/messages/Packet_m.o: messages/Packet_m.cc \
+	messages/Packet_m.h
+$O/profilers/DualLeakyBucketProfiler.o: profilers/DualLeakyBucketProfiler.cc \
+	generators/ProfilerType.h \
+	messages/Packet_m.h \
+	profilers/DualLeakyBucketProfiler.h
+$O/profilers/LeakyBucketProfiler.o: profilers/LeakyBucketProfiler.cc \
+	generators/ProfilerType.h \
+	messages/Packet_m.h \
+	profilers/LeakyBucketProfiler.h
+$O/profilers/LeakyBucketProfiler2.o: profilers/LeakyBucketProfiler2.cc \
+	generators/ProfilerType.h \
+	messages/Packet_m.h \
+	profilers/LeakyBucketProfiler2.h
+$O/profilers/TokenBucketProfiler.o: profilers/TokenBucketProfiler.cc \
+	generators/ProfilerType.h \
+	messages/Packet_m.h \
+	profilers/TokenBucketProfiler.h
+$O/receivers/Receiver.o: receivers/Receiver.cc \
+	messages/Packet_m.h \
+	receivers/Receiver.h
+$O/schedulers/FIFOQueue.o: schedulers/FIFOQueue.cc \
+	messages/Packet_m.h \
+	schedulers/FIFOQueue.h
+$O/schedulers/PriorityQueue.o: schedulers/PriorityQueue.cc \
+	messages/Packet_m.h \
+	schedulers/PriorityQueue.h
+$O/schedulers/RoundRobinScheduler.o: schedulers/RoundRobinScheduler.cc \
+	messages/Packet_m.h \
+	schedulers/RoundRobinScheduler.h \
+	schedulers/SchedulerType.h
+$O/schedulers/WeightedRoundRobinScheduler.o: schedulers/WeightedRoundRobinScheduler.cc \
+	messages/Packet_m.h \
+	schedulers/SchedulerType.h \
+	schedulers/WeightedRoundRobinScheduler.h
 
