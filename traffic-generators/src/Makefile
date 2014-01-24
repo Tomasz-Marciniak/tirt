@@ -29,18 +29,18 @@ O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 
 # Object files for local .cc and .msg files
 OBJS = \
-    $O/Source.o \
-    $O/OnOff.o \
-    $O/RandomPriorityPacketGenerator.o \
     $O/Exponential.o \
-    $O/Receiver.o \
-    $O/RandomSizePacketGenerator.o \
+    $O/OnOff.o \
     $O/Poisson.o \
+    $O/RandomPriorityPacketGenerator.o \
+    $O/RandomSizePacketGenerator.o \
+    $O/Receiver.o \
+    $O/Source.o \
     $O/admissioncontrol/BlockDeniedSourceAdmissionControl.o \
     $O/admissioncontrol/PriorityBasedAdmissionControl.o \
     $O/admissioncontrol/SizeBasedAdmissionControl.o \
-    $O/profiler/LeakyBucketProfiler.o \
     $O/profiler/DualLeakyBucketProfiler.o \
+    $O/profiler/LeakyBucketProfiler.o \
     $O/profiler/TokenBucketProfiler.o \
     $O/scheduler/FIFOQueue.o \
     $O/scheduler/PriorityQueue.o \

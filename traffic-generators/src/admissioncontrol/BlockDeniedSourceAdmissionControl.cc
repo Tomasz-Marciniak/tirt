@@ -39,8 +39,11 @@ void BlockDeniedSourceAdmissionControl::initialize()
 	parseSources(blockedPar, blackList);
 
 	//Statistics
-    signalAccepted = registerSignal("accepted");
-    signalRejected = registerSignal("rejected");
+	signalAccepted = registerSignal("accepted");
+	signalRejected = registerSignal("rejected");
+
+    histogram.setRange(0, 1700);
+    histogram.setNumCells(1000);
 
 }
 
@@ -72,15 +75,22 @@ void BlockDeniedSourceAdmissionControl::handleMessage(cMessage* msg)
 				sendDelayed(pck, sendPostponeTime, out);
 			}
 			else
-			send(pck, out);
+			{
+				send(pck, out);
+			}
+
 			accepted++;
 			packetsSentOut++;
+			emit(signalAccepted, 1);
+
+			histogram.collect(simTime());
 		}
 		else
 		{
 			EV<< "BlockDeniedSourceAdmissionControl rejected and removed packet " << pck->getName() << " from source address " << pck->getSrcAddr() << "\n";
 			delete pck;
 			rejected++;
+			emit(signalRejected, 1);
 		}
 	}
 	else
@@ -91,14 +101,13 @@ void BlockDeniedSourceAdmissionControl::handleMessage(cMessage* msg)
 		packetsReceivedIn++;
 	}
 
-	//
-    emit(signalAccepted, accepted);
-    emit(signalRejected, rejected);
 }
 
 void BlockDeniedSourceAdmissionControl::finish()
 {
-
+    recordScalar("Rejected count", rejected);
+    recordScalar("Accepted count", accepted);
+    histogram.recordAs("Histogram");
 }
 
 void BlockDeniedSourceAdmissionControl::parseSources(std::string blockedSources, std::list<int>* blockedList) throw ()
@@ -148,7 +157,7 @@ void BlockDeniedSourceAdmissionControl::printList(std::list<int>* list)
 		for (std::list<int>::const_iterator iterator = list->begin(), end = list->end(); iterator != end; ++iterator)
 		{
 			int currentBlockedListElement = *iterator;
-			EV<< "Item " << i++ << " is "  << currentBlockedListElement << "\n";
+			EV<< "Item " << i++ << " is " << currentBlockedListElement << "\n";
 
 		}
 	}

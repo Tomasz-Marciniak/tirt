@@ -43,10 +43,16 @@ class BlockDeniedSourceAdmissionControl : public cSimpleModule
 		//Accumulators
 		simtime_t lastPacketProcessTime;
 
+		// Statistics
 	 	int32 rejected;
 	 	int32 accepted;
 
-		int32 packetsReceivedIn;int32 packetsSentOut;
+		int32 packetsReceivedIn;
+		int32 packetsSentOut;
+
+		cDoubleHistogram histogram;
+
+		// Methods
 
 		virtual void initialize();
 		virtual bool accept(Packet* packet);
