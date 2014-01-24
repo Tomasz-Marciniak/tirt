@@ -28,6 +28,7 @@ simple RandomSizePacketGenerator
         int maxPacketSize @unit("B") = default(1KiB);
 
         double sendInterval @unit(s) = default(1s);
+        int srcAddr = default(1);
 
     gates:
         output out;

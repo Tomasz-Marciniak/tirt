@@ -28,6 +28,7 @@ simple RandomPriorityPacketGenerator
         int maxPacketPriority = default(1024);
 
         double sendInterval @unit(s) = default(1s);
+        int srcAddr = default(1);
 
     gates:
         output out;

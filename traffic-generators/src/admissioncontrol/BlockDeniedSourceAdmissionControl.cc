@@ -21,6 +21,8 @@ BlockDeniedSourceAdmissionControl::BlockDeniedSourceAdmissionControl()
 {
 	blackList = new std::list<int>;
 
+	//histogram = new cDoubleHistogram("Histogram", 1000);
+
 	EV<< "list size " << blackList->size() << "\n";
 }
 

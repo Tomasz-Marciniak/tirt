@@ -28,7 +28,7 @@ import traffic_generators.generators.Source;
 network FIFOQueue
 {
         submodules:
-        FIFOQueue: traffic_generators.scheduler.FIFOQueue {
+        FIFOQueue: traffic_generators.schedulers.FIFOQueue {
             @display("p=242,92");
         }
         receiver: Receiver {

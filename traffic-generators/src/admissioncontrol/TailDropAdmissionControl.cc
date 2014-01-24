@@ -123,11 +123,12 @@ void TailDropAdmissionControl::put2queue(Packet* packet)
 	else
 	{
 		EV<< "TailDropAdmissionControl::put2queue: All capacity used = "<< currentCapacity << endl;
-		Packet* packetDropped = limitedQueueList->back();
-		delete(packetDropped);
+		Packet* packetDrop = limitedQueueList->back();
+		EV<< "TailDropAdmissionControl::put2queue: Packet " << *packetDrop << " will be deleted" << endl;
+		delete(packetDrop);
 		packetsDropped++;
 		emit(signalDropped, simTime());
-		EV<< "TailDropAdmissionControl::put2queue: Packet " << *packetDropped << " deleted" << endl;
+		histogram.collect(simTime());
 		limitedQueueList->push_back(packet);
 		EV<< "TailDropAdmissionControl::put2queue: Packet " << *packet << " added to tail" << endl;
 	}

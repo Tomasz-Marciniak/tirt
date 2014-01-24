@@ -25,7 +25,7 @@ import traffic_generators.generators.Source;
 network RoundRobinScheduler
 {
     submodules:
-        roundRobinScheduler: traffic_generators.scheduler.RoundRobinScheduler {
+        roundRobinScheduler: traffic_generators.schedulers.RoundRobinScheduler {
             @display("p=242,92");
         }
         receiver: Receiver {

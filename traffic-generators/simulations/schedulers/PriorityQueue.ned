@@ -15,7 +15,7 @@
 
 package traffic_generators.simulations.schedulers;
 
-import traffic_generators.scheduler.PriorityQueue;
+import traffic_generators.schedulers.PriorityQueue;
 import traffic_generators.generators.RandomPriorityPacketGenerator;
 import traffic_generators.generators.RandomSizePacketGenerator;
 import traffic_generators.receivers.Receiver;
