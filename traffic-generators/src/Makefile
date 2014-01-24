@@ -29,18 +29,19 @@ O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 
 # Object files for local .cc and .msg files
 OBJS = \
-    $O/Source.o \
-    $O/OnOff.o \
-    $O/RandomPriorityPacketGenerator.o \
     $O/Exponential.o \
-    $O/Receiver.o \
-    $O/RandomSizePacketGenerator.o \
+    $O/OnOff.o \
     $O/Poisson.o \
+    $O/RandomPriorityPacketGenerator.o \
+    $O/RandomSizePacketGenerator.o \
+    $O/Receiver.o \
+    $O/Source.o \
     $O/admissioncontrol/BlockDeniedSourceAdmissionControl.o \
     $O/admissioncontrol/PriorityBasedAdmissionControl.o \
     $O/admissioncontrol/SizeBasedAdmissionControl.o \
-    $O/profiler/LeakyBucketProfiler.o \
     $O/profiler/DualLeakyBucketProfiler.o \
+    $O/profiler/LeakyBucketProfiler.o \
+    $O/profiler/LeakyBucketProfiler2.o \
     $O/profiler/TokenBucketProfiler.o \
     $O/scheduler/FIFOQueue.o \
     $O/scheduler/PriorityQueue.o \
@@ -179,6 +180,10 @@ $O/profiler/LeakyBucketProfiler.o: profiler/LeakyBucketProfiler.cc \
 	Packet_m.h \
 	ProfilerType.h \
 	profiler/LeakyBucketProfiler.h
+$O/profiler/LeakyBucketProfiler2.o: profiler/LeakyBucketProfiler2.cc \
+	Packet_m.h \
+	ProfilerType.h \
+	profiler/LeakyBucketProfiler2.h
 $O/profiler/TokenBucketProfiler.o: profiler/TokenBucketProfiler.cc \
 	Packet_m.h \
 	ProfilerType.h \
